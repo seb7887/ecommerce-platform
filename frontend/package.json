@@ -1,0 +1,106 @@
+{
+  "name": "nextjs-boilerplate",
+  "version": "1.0.0",
+  "author": "Sebastian Matias Segura (http://github.com/seb7887)",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "dev": "next",
+    "start": "next start",
+    "lint": "eslint --cache --fix '**/*.{js,ts,tsx}'",
+    "tscheck": "tsc --noEmit --pretty",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:e2e": "cypress run",
+    "storybook": "start-storybook -p 6006"
+  },
+  "dependencies": {
+    "@tailwindcss/typography": "^0.2.0",
+    "@visx/group": "^1.0.0",
+    "@visx/mock-data": "^1.0.0",
+    "@visx/scale": "^1.1.0",
+    "@visx/shape": "^1.1.0",
+    "clsx": "^1.1.1",
+    "date-fns": "^2.16.1",
+    "dotenv": "^8.2.0",
+    "formik": "^2.2.0",
+    "next": "^10.0.0",
+    "next-auth": "^3.1.0",
+    "nprogress": "^0.2.0",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "react-icons": "^3.11.0",
+    "react-table": "^7.6.0",
+    "swr": "^0.3.5",
+    "tailwindcss": "^1.9.4",
+    "use-dark-mode": "^2.3.1",
+    "yup": "^0.29.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@fullhuman/postcss-purgecss": "^3.0.0",
+    "@storybook/addon-a11y": "^6.0.26",
+    "@storybook/addon-actions": "^6.0.26",
+    "@storybook/addon-knobs": "^6.0.26",
+    "@storybook/addon-links": "^6.0.26",
+    "@storybook/addons": "^6.0.26",
+    "@storybook/react": "^6.0.26",
+    "@testing-library/cypress": "^7.0.1",
+    "@testing-library/dom": "^7.26.0",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@types/faker": "^5.1.2",
+    "@types/jest": "^26.0.14",
+    "@types/next": "^9.0.0",
+    "@types/node": "^14.11.10",
+    "@types/react": "^16.9.53",
+    "@types/react-dom": "^16.9.8",
+    "@typescript-eslint/eslint-plugin": "^4.4.1",
+    "@typescript-eslint/parser": "^4.4.1",
+    "autoprefixer": "9.8.6",
+    "babel-jest": "^26.5.2",
+    "babel-loader": "^8.1.0",
+    "css-loader": "^5.0.0",
+    "cypress": "^5.4.0",
+    "eslint": "^7.11.0",
+    "eslint-plugin-cypress": "^2.11.2",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react-hooks": "^4.1.2",
+    "eslint-plugin-testing-library": "^3.9.2",
+    "eslint-plugin-unicorn": "^23.0.0",
+    "faker": "^5.1.0",
+    "jest": "^26.5.3",
+    "postcss-loader": "^4.0.4",
+    "postcss-nested": "4.2.3",
+    "postcss-selector-parser": "6.0.2",
+    "prettier": "^2.1.2",
+    "react-docgen-typescript-loader": "^3.7.2",
+    "style-loader": "^2.0.0",
+    "typescript": "^4.0.3",
+    "typescript-plugin-css-modules": "^2.7.0"
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.setup.ts"
+    ],
+    "moduleFileExtensions": [
+      "json",
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "babel-jest"
+    },
+    "testPathIgnorePatterns": [
+      "<rootDir>[/\\\\](node_modules|.next|cypress)[/\\\\]"
+    ],
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(ts|tsx)$"
+    ]
+  }
+}

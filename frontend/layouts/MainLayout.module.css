@@ -1,0 +1,15 @@
+.section {
+  @apply flex flex-col content-center items-center w-full;
+}
+
+.nav {
+  @apply flex justify-between;
+
+  div {
+    @apply flex items-center p-4;
+  }
+
+  a {
+    @apply font-semibold mr-4 transition duration-300;
+  }
+}
