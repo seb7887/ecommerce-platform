@@ -3,6 +3,7 @@ import { AppProps } from 'next/app'
 import Head from 'next/head'
 import Router from 'next/router'
 import NProgress from 'nprogress'
+import { Provider as NextAuthProvider } from 'next-auth/client'
 import 'styles.css'
 
 Router.events.on('routeChangeStart', () => NProgress.start())
@@ -11,6 +12,7 @@ Router.events.on('routeChangeError', () => NProgress.done())
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props
+  const { session } = pageProps
 
   return (
     <>
@@ -20,9 +22,11 @@ export default function MyApp(props: AppProps) {
         <link rel="stylesheet" type="text/css" href="/nprogress.css" />
       </Head>
 
-      <main role="document">
-        <Component {...pageProps} />
-      </main>
+      <NextAuthProvider session={session}>
+        <main role="document">
+          <Component {...pageProps} />
+        </main>
+      </NextAuthProvider>
     </>
   )
 }

@@ -6,8 +6,8 @@ export default class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <meta charSet="utf-8" />
-          <meta name="description" content="Your description" />
-          <meta name="keyword" content="your, keywords" />
+          <meta name="description" content="Ecommerce Platform" />
+          <meta name="keyword" content="ecommerce" />
         </Head>
         <body className="font-sans">
           <script src="dark-mode.js" />

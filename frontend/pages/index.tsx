@@ -1,25 +1,34 @@
 import React from 'react'
-import { NextPage } from 'next'
-import Image from 'next/image'
+import { NextPage, NextPageContext } from 'next'
+import { getSessionOrRedirect } from 'lib/auth'
 import { PageTitle } from 'components/PageTitle'
-import { MainLayout } from 'layouts/MainLayout'
+import { AdminLayout } from 'layouts/AdminLayout'
 
-const IndexPage: NextPage = () => {
+interface Props {
+  session: any
+}
+
+const AdminIndexPage: NextPage<Props> = ({ session }) => {
   return (
     <>
       <PageTitle title="Home" />
-      <MainLayout>
+      <AdminLayout>
         <h3 className="text-4xl font-extrabold">Hello World!</h3>
         <p className="mb-4">Reality is what you can get away with.</p>
-        <Image
-          alt="Next.js logo"
-          src="/vercel.png"
-          width={400}
-          height={400}
-        />
-      </MainLayout>
+      </AdminLayout>
     </>
   )
 }
 
-export default IndexPage
+export const getServerSideProps = async (ctx: NextPageContext) => {
+  const sessionPromise = getSessionOrRedirect(true)
+  const session = await sessionPromise(ctx)
+
+  return {
+    props: {
+      session,
+    }
+  }
+}
+
+export default AdminIndexPage

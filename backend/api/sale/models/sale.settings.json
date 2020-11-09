@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sales",
+  "info": {
+    "name": "Sale",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "paymentMethod": {
+      "type": "enumeration",
+      "enum": [
+        "cash",
+        "stripe",
+        "mercadoPago"
+      ],
+      "default": "cash",
+      "required": true
+    },
+    "charged": {
+      "type": "decimal",
+      "required": true
+    },
+    "date": {
+      "type": "datetime",
+      "required": true
+    },
+    "order": {
+      "model": "order"
+    }
+  }
+}

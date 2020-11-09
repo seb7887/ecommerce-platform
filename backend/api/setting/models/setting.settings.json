@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "settings",
+  "info": {
+    "name": "Setting"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "vat": {
+      "type": "decimal",
+      "default": 21,
+      "required": true
+    },
+    "mercadopago": {
+      "required": true,
+      "type": "decimal"
+    },
+    "stripe": {
+      "type": "decimal",
+      "required": true
+    }
+  }
+}

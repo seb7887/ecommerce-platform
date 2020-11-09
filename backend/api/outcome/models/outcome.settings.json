@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "outcomes",
+  "info": {
+    "name": "Outcome"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "amount": {
+      "type": "decimal",
+      "required": true
+    },
+    "concept": {
+      "type": "string",
+      "required": true
+    },
+    "date": {
+      "type": "datetime",
+      "required": true
+    }
+  }
+}

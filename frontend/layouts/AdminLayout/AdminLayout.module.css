@@ -1,0 +1,18 @@
+.layout {
+  @apply flex h-screen w-full;
+}
+
+.sidebar {
+  width: 280px;
+  border-top-right-radius: 32px;
+  border-bottom-right-radius: 32px;
+  @apply bg-indigo-900 flex flex-col items-center;
+}
+
+.logo {
+  @apply mt-12;
+}
+
+.content {
+  @apply flex-1;
+}

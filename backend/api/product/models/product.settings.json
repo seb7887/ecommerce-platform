@@ -1,0 +1,47 @@
+{
+  "kind": "collectionType",
+  "collectionName": "products",
+  "info": {
+    "name": "Product",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "price": {
+      "type": "decimal",
+      "required": true
+    },
+    "stock": {
+      "type": "integer",
+      "required": true,
+      "default": 1
+    },
+    "image": {
+      "type": "string"
+    },
+    "author": {
+      "type": "string",
+      "required": true
+    },
+    "cost": {
+      "type": "decimal",
+      "required": true
+    },
+    "sold": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}
