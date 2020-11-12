@@ -1,0 +1,51 @@
+.root {
+  @apply flex items-center cursor-pointer transition duration-300;
+}
+
+.default {
+  @apply text-gray-900;
+}
+
+.default:hover {
+  @apply text-gray-800 opacity-75;
+}
+
+.primary {
+  @apply text-indigo-900;
+}
+
+.primary:hover {
+  @apply text-indigo-800;
+}
+
+.secondary {
+  @apply text-orange-400;
+}
+
+.secondary:hover {
+  @apply text-orange-300;
+}
+
+.danger {
+  @apply text-red-600;
+}
+
+.danger:hover {
+  @apply text-red-500;
+}
+
+.disabled {
+  @apply text-gray-500 pointer-events-none;
+}
+
+.sm {
+  @apply text-lg;
+}
+
+.md {
+  @apply text-xl;
+}
+
+.lg {
+  @apply text-2xl;
+}

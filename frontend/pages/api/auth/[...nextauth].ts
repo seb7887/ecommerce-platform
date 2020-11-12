@@ -7,7 +7,7 @@ const options = {
     Providers.Google({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    })
+    }),
   ],
   session: {
     jwt: true,
@@ -39,5 +39,5 @@ const options = {
 }
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
-  NextAuth(req, res, options)
+  NextAuth(req, res, options as any)
 }

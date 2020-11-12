@@ -3,13 +3,17 @@
 
 declare module 'nprogress'
 
+type Color = 'primary' | 'secondary' | 'danger'
+type Size = 'small' | 'medium' | 'large'
+type Variant = 'contained' | 'outlined'
+
 interface Session {
   jwt: string
   user: {
     name: string
     email: string
     image: string
-  },
+  }
   id: number
   expires: string
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { NextPage, NextPageContext } from 'next'
 import { getSessionOrRedirect } from 'lib/auth'
 import { PageTitle } from 'components/PageTitle'
-import { AdminLayout } from 'layouts/AdminLayout'
+import { AdminLayout } from 'layouts'
 
 interface Props {
   session: any
@@ -21,13 +21,12 @@ const AdminIndexPage: NextPage<Props> = ({ session }) => {
 }
 
 export const getServerSideProps = async (ctx: NextPageContext) => {
-  const sessionPromise = getSessionOrRedirect(true)
-  const session = await sessionPromise(ctx)
+  const session = await getSessionOrRedirect(ctx, true)
 
   return {
     props: {
       session,
-    }
+    },
   }
 }
 

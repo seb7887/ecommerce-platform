@@ -2,31 +2,35 @@ import React from 'react'
 import { NextPage, NextPageContext } from 'next'
 import { getSessionOrRedirect } from 'lib/auth'
 import { PageTitle } from 'components/PageTitle'
-import { AdminLayout } from 'layouts/AdminLayout'
+import { Button } from 'components/ui'
+import { AdminLayout } from 'layouts'
 
-const SignUpForm: React.FC = () => (
-  <h1>Authenticate yourself!</h1>
-)
+const SignUpForm: React.FC = () => <h1>Authenticate yourself!</h1>
 
 const AuthPage: NextPage = () => {
   return (
     <>
       <PageTitle title="Authenticate" />
       <AdminLayout>
-        <div className="flex flex-col items-center content-center h-full">
-          <h3>Sign up and start using the platform</h3>
-          <p>Upgrade or downgrade anytime. No credit card required.</p>
-          <SignUpForm />
+        <div className="min-h-screen flex flex-col items-center justify-center">
+          <div>
+            <h1 className="text-2xl font-bold">
+              Sign up and start using the platform
+            </h1>
+            <p className="text-base">
+              Upgrade or downgrade anytime. No credit card required.
+            </p>
+            <Button>Continue with Google</Button>
+            <SignUpForm />
+          </div>
         </div>
-
       </AdminLayout>
     </>
   )
 }
 
 export const getServerSideProps = async (ctx: NextPageContext) => {
-  const sessionPromise = getSessionOrRedirect()
-  const session = await sessionPromise(ctx)
+  const session = await getSessionOrRedirect(ctx)
 
   return {
     props: {

@@ -9,7 +9,7 @@ module.exports = {
       module: {
         ...module,
         rules: [...(module.rules || [])],
-      }
+      },
     }
 
     newConfig.module.rules.push({
@@ -24,9 +24,9 @@ module.exports = {
           options: {
             presets: ['next/babel'],
             plugins: ['react-docgen'],
-          }
-        }
-      ]
+          },
+        },
+      ],
     })
     newConfig.resolve.extensions.push('.ts', '.tsx')
 
@@ -48,11 +48,11 @@ module.exports = {
           },
         },
         {
-          loader: "postcss-loader",
+          loader: 'postcss-loader',
           options: {
             postcssOptions: {
               sourceMap: true,
-              config: path.resolve(__dirname, "../postcss.config.js"),
+              config: path.resolve(__dirname, '../postcss.config.js'),
             },
           },
         },
@@ -60,5 +60,5 @@ module.exports = {
     })
 
     return newConfig
-  }
+  },
 }

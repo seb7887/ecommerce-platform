@@ -1,0 +1,86 @@
+.root {
+  @apply transition duration-300 text-base font-bold border-transparent border-2;
+}
+
+.root:focus {
+  @apply outline-none;
+}
+
+.primaryContained {
+  @apply bg-indigo-900 text-white;
+}
+
+.primaryContained:hover {
+  @apply bg-indigo-800;
+}
+
+.primaryOutlined {
+  @apply border-indigo-900 text-indigo-900 bg-transparent border-2;
+}
+
+.primaryOutlined:hover {
+  @apply border-indigo-800 text-indigo-800 shadow-sm;
+}
+
+.secondaryContained {
+  @apply bg-orange-400 text-white;
+}
+
+.secondaryContained:hover {
+  @apply bg-orange-300;
+}
+
+.secondaryOutlined {
+  @apply border-orange-400 text-orange-400 bg-transparent border-2;
+}
+
+.secondaryOutlined:hover {
+  @apply border-orange-300 text-orange-300 shadow-sm;
+}
+
+.dangerContained {
+  @apply bg-red-600 text-white;
+}
+
+.dangerContained:hover {
+  @apply bg-red-500;
+}
+
+.dangerOutlined {
+  @apply border-red-600 text-red-600 bg-transparent border-2;
+}
+
+.dangerOutlined:hover {
+  @apply border-red-500 text-red-500 shadow-sm;
+}
+
+.disabledContained {
+  @apply bg-gray-300 text-gray-500 cursor-default pointer-events-none;
+}
+
+.disabledOutlined {
+  @apply border-gray-300 text-gray-400 bg-transparent border-2 cursor-default pointer-events-none;
+}
+
+.sm {
+  @apply px-4 py-0 rounded-md text-sm;
+  height: 32px;
+}
+
+.md {
+  @apply px-6 py-1 rounded-md;
+  height: 40px;
+}
+
+.lg {
+  @apply text-lg px-8 py-2 rounded-lg;
+  height: 48px;
+}
+
+.content {
+  @apply flex items-center;
+
+  svg {
+    @apply mr-2;
+  }
+}
