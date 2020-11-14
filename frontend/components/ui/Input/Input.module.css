@@ -1,0 +1,74 @@
+.root {
+  @apply flex flex-col text-gray-900 transition-all duration-300;
+}
+
+.field {
+  @apply flex items-center border-2 border-gray-300 cursor-text px-2 text-gray-900;
+
+  input {
+    height: 100%;
+  }
+}
+
+.field:focus-within {
+  @apply border-2 border-indigo-900;
+}
+
+.field > input:focus {
+  @apply outline-none;
+}
+
+.error {
+  @apply border-red-600 text-red-600;
+}
+
+.success {
+  @apply border-green-400 text-green-400;
+}
+
+.sm {
+  @apply text-sm rounded-md;
+  height: 32px;
+}
+
+.md {
+  @apply rounded-md;
+  height: 40px;
+}
+
+.lg {
+  @apply text-lg rounded-lg;
+  height: 48px;
+}
+
+.icon {
+  @apply text-gray-600;
+}
+
+.passwordIcon {
+  @apply cursor-pointer;
+}
+
+.prefix {
+  @apply mr-2;
+}
+
+.caption {
+  @apply text-gray-900 flex items-center;
+
+  svg {
+    @apply mr-1;
+  }
+}
+
+.captionSm {
+  @apply text-xs;
+}
+
+.captionMd {
+  @apply text-xs;
+}
+
+.captionLg {
+  @apply text-base;
+}
