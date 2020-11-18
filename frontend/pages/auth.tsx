@@ -1,29 +1,39 @@
 import React from 'react'
 import { NextPage, NextPageContext } from 'next'
+import dynamic from 'next/dynamic'
 import { getSessionOrRedirect } from 'lib/auth'
 import { PageTitle } from 'components/PageTitle'
-import { Button } from 'components/ui'
+import { LoadingDots, useUI } from 'components/ui'
 import { AdminLayout } from 'layouts'
 
-const SignUpForm: React.FC = () => <h1>Authenticate yourself!</h1>
+const Loading = () => (
+  <div className="w-80 h-80 flex items-center text-center justify-center p-3">
+    <LoadingDots color="primary" />
+  </div>
+)
+
+const dynamicProps = {
+  loading: () => <Loading />,
+}
+
+const LoginView = dynamic(
+  () => import('components/auth/LoginView'),
+  dynamicProps
+)
+const SignUpView = dynamic(
+  () => import('components/auth/SignUpView'),
+  dynamicProps
+)
 
 const AuthPage: NextPage = () => {
+  const { authView } = useUI()
+
   return (
     <>
       <PageTitle title="Authenticate" />
       <AdminLayout>
-        <div className="min-h-screen flex flex-col items-center justify-center">
-          <div>
-            <h1 className="text-2xl font-bold">
-              Sign up and start using the platform
-            </h1>
-            <p className="text-base">
-              Upgrade or downgrade anytime. No credit card required.
-            </p>
-            <Button>Continue with Google</Button>
-            <SignUpForm />
-          </div>
-        </div>
+        {authView === 'LOGIN_VIEW' && <LoginView />}
+        {authView === 'SIGNUP_VIEW' && <SignUpView />}
       </AdminLayout>
     </>
   )

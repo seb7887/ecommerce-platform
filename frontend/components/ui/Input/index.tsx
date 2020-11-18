@@ -41,10 +41,6 @@ export const Input: React.FC<Props> = ({
     [styles.md]: size === 'medium',
     [styles.lg]: size === 'large',
   })
-  const iconClasses = clsx(styles.icon, {
-    [styles.prefix]: type !== 'password',
-    [styles.passwordIcon]: type === 'password',
-  })
   const captionClasses = clsx(styles.caption, {
     [styles.captionError]: meta.error,
     [styles.captionSm]: size === 'small',
@@ -62,12 +58,12 @@ export const Input: React.FC<Props> = ({
 
   const revealIcon = reveal ? (
     <HiOutlineEye
-      className={iconClasses}
+      className={styles.passwordIcon}
       onClick={() => toggleRevealPassword()}
     />
   ) : (
     <HiOutlineEyeOff
-      className={iconClasses}
+      className={styles.passwordIcon}
       onClick={() => toggleRevealPassword()}
     />
   )
@@ -76,7 +72,7 @@ export const Input: React.FC<Props> = ({
     <div className={styles.root}>
       {label && <label htmlFor={name}>{label}</label>}
       <div className={classes}>
-        {<span className={iconClasses}>{prefix}</span>}
+        {<span className={styles.prefix}>{prefix}</span>}
         <input
           id={field.name}
           name={field.name}

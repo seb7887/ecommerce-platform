@@ -1,0 +1,13 @@
+.root {
+  @apply w-full my-8;
+}
+
+.content {
+  @apply relative text-center;
+}
+
+.content span {
+  @apply absolute bg-white px-4 text-gray-500;
+  top: -12px;
+  left: 48%;
+}

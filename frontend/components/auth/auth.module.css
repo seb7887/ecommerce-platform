@@ -1,0 +1,32 @@
+.link {
+  @apply flex justify-end mr-8 py-4;
+}
+
+.link a {
+  @apply font-bold text-indigo-900 cursor-pointer transition-all duration-300;
+}
+
+.link a:hover {
+  @apply text-indigo-800;
+}
+
+.container {
+  @apply flex flex-col items-center justify-center;
+  height: 80%;
+}
+
+.content {
+  @apply w-3/5;
+}
+
+.google {
+  @apply w-full mt-6 mb-4;
+}
+
+.divider {
+  @apply text-center;
+}
+
+.form > * {
+  @apply mb-4;
+}

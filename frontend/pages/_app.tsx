@@ -4,6 +4,7 @@ import Head from 'next/head'
 import Router from 'next/router'
 import NProgress from 'nprogress'
 import { Provider as NextAuthProvider } from 'next-auth/client'
+import { UIProvider } from 'components/ui/context'
 import 'styles.css'
 
 Router.events.on('routeChangeStart', () => NProgress.start())
@@ -17,15 +18,20 @@ export default function MyApp(props: AppProps) {
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+        />
         <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="stylesheet" type="text/css" href="/nprogress.css" />
       </Head>
 
       <NextAuthProvider session={session}>
-        <main role="document">
-          <Component {...pageProps} />
-        </main>
+        <UIProvider>
+          <main role="document">
+            <Component {...pageProps} />
+          </main>
+        </UIProvider>
       </NextAuthProvider>
     </>
   )

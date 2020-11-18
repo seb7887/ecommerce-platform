@@ -38,6 +38,12 @@ const options = {
   },
 }
 
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+}
+
 export default (req: NextApiRequest, res: NextApiResponse) => {
   NextAuth(req, res, options as any)
 }

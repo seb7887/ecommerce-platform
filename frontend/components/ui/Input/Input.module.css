@@ -7,6 +7,7 @@
 
   input {
     height: 100%;
+    width: 100%;
   }
 }
 
@@ -41,16 +42,12 @@
   height: 48px;
 }
 
-.icon {
-  @apply text-gray-600;
-}
-
 .passwordIcon {
-  @apply cursor-pointer;
+  @apply cursor-pointer text-gray-600;
 }
 
 .prefix {
-  @apply mr-2;
+  @apply mr-2 text-gray-600;
 }
 
 .caption {

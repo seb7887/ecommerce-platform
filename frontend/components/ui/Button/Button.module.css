@@ -84,3 +84,11 @@
     @apply mr-2;
   }
 }
+
+.spaced {
+  @apply flex justify-center items-center;
+}
+
+.fullWidth {
+  @apply w-full;
+}

@@ -10,6 +10,8 @@ interface Props {
   disabled?: boolean
   icon?: JSX.Element
   loading?: boolean
+  fullWidth?: boolean
+  type?: 'button' | 'submit' | 'reset'
   onClick?: () => void | Promise<void>
 }
 
@@ -21,9 +23,11 @@ export const Button: React.FC<Props> = ({
   disabled,
   icon,
   loading,
+  fullWidth,
+  type = 'button',
   onClick,
 }) => {
-  const className = clsx(styles.root, {
+  const classes = clsx(styles.root, {
     [styles.primaryContained]: variant === 'contained' && color === 'primary',
     [styles.primaryOutlined]: variant === 'outlined' && color === 'primary',
     [styles.secondaryContained]:
@@ -36,18 +40,22 @@ export const Button: React.FC<Props> = ({
     [styles.sm]: size === 'small',
     [styles.md]: size === 'medium',
     [styles.lg]: size === 'large',
+    [styles.fullWidth]: fullWidth,
+  })
+  const contentClasses = clsx(styles.content, {
+    [styles.spaced]: fullWidth,
   })
   const loadingColor = variant === 'contained' ? 'transparent' : color
 
   return (
     <button
-      type="button"
+      type={type}
       role="button"
-      className={className}
+      className={classes}
       disabled={disabled}
       onClick={onClick}
     >
-      <div className={styles.content}>
+      <div className={contentClasses}>
         {icon}
         <span>{children}</span>
         {loading && (
