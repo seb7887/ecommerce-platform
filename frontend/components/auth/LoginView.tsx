@@ -3,6 +3,7 @@ import { GrGoogle } from 'react-icons/gr'
 import { HiAtSymbol, HiOutlineKey } from 'react-icons/hi'
 import { Formik, Form, FormikProps } from 'formik'
 import * as Yup from 'yup'
+import { signIn } from 'next-auth/client'
 import { Button, Divider, Input, useUI } from 'components/ui'
 import styles from './auth.module.css'
 
@@ -19,6 +20,14 @@ const loginSchema = Yup.object().shape({
 const LoginView: React.FC = () => {
   const { setAuthView } = useUI()
 
+  const handleGoogleAuth = async () => {
+    try {
+      return await signIn()
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   return (
     <>
       <div className={styles.link}>
@@ -34,7 +43,7 @@ const LoginView: React.FC = () => {
             You can authenticate using your email address or Google account.
           </p>
           <div className={styles.google}>
-            <Button icon={<GrGoogle />} fullWidth>
+            <Button icon={<GrGoogle />} fullWidth onClick={handleGoogleAuth}>
               Continue with Google
             </Button>
           </div>
