@@ -23,19 +23,24 @@
 }
 
 .secondaryContained {
-  @apply bg-orange-400 text-white;
+  @apply text-white;
+  background: #F6AD55;
 }
 
 .secondaryContained:hover {
-  @apply bg-orange-300;
+  background: #FBD38D;
 }
 
 .secondaryOutlined {
-  @apply border-orange-400 text-orange-400 bg-transparent border-2;
+  @apply bg-transparent border-2;
+  border-color: #F6AD55;
+  color: #F6AD55;
 }
 
 .secondaryOutlined:hover {
-  @apply border-orange-300 text-orange-300 shadow-sm;
+  @apply shadow-sm;
+  border-color: #FBD38D;
+  color: #FBD38D;
 }
 
 .dangerContained {

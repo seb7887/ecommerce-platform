@@ -19,11 +19,11 @@
 }
 
 .secondary {
-  @apply text-orange-400;
+  color: #F6AD55;
 }
 
 .secondary:hover {
-  @apply text-orange-300;
+  color: #FBD38D;
 }
 
 .danger {

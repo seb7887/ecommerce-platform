@@ -27,7 +27,7 @@
 
 .secondary {
   & span {
-    @apply bg-orange-400;
+    background: #F6AD55;
   }
 }
 
