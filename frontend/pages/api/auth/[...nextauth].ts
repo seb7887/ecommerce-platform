@@ -8,6 +8,37 @@ const options = {
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
+    Providers.Credentials({
+      name: 'Credentials',
+      credentials: {
+        email: { label: 'Email', type: 'text', placeholder: 'Email Address' },
+        password: { label: 'Password', type: 'text' },
+      },
+      authorize: async credentials => {
+        const { email, password } = credentials
+        const response = await fetch(`${process.env.API_URL}/auth/local`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            identifier: email,
+            password,
+          }),
+        })
+        const data = await response.json()
+        if (data.user) {
+          const user: User = {
+            jwt: data.jwt,
+            id: data.user.id,
+            username: data.user.username,
+          }
+          return Promise.resolve(user)
+        }
+        console.log('acaa')
+        return Promise.reject(`${process.env.NEXTAUTH_URL}/auth?error=true`)
+      },
+    }),
   ],
   session: {
     jwt: true,
@@ -21,9 +52,9 @@ const options = {
       return Promise.resolve(session)
     },
     jwt: async (token: Token, user: User, account: Account) => {
-      const isSignIn = user ? true : false
+      const isOauth = user && account.type !== 'credentials' ? true : false
 
-      if (isSignIn) {
+      if (isOauth) {
         const response = await fetch(
           `${process.env.API_URL}/auth/${account.provider}/callback?access_token=${account?.accessToken}`
         )
@@ -31,6 +62,11 @@ const options = {
 
         token.jwt = data.jwt
         token.id = data.user.id
+      }
+
+      if (!isOauth && user) {
+        token.jwt = user.jwt
+        token.id = user.id
       }
 
       return Promise.resolve(token)

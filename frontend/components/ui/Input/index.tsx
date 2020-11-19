@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useField } from 'formik'
 import {
   HiOutlineEye,
   HiOutlineEyeOff,
@@ -8,41 +7,45 @@ import {
 import clsx from 'clsx'
 import styles from './Input.module.css'
 
-type InputType = 'text' | 'password' | 'number'
+type InputType = 'text' | 'password' | 'number' | 'email'
 
 interface Props {
   label?: string
   caption?: string
   name: string
+  value?: string | number
+  error?: boolean
   type?: InputType
   size?: Size
   placeholder?: string
   disabled?: boolean
   prefix?: JSX.Element
-  onChange?: () => void
+  onChange?: (e?: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 export const Input: React.FC<Props> = ({
   label,
   caption,
   name,
+  value,
+  error,
   type = 'text',
   size = 'medium',
   placeholder,
   disabled,
   prefix,
+  onChange,
 }) => {
   const [inputType, setInputType] = useState<InputType>(type)
   const [reveal, setReveal] = useState<boolean>(false)
-  const [field, meta] = useField(name)
   const classes = clsx(styles.field, {
-    [styles.error]: meta.error,
+    [styles.error]: error,
     [styles.sm]: size === 'small',
     [styles.md]: size === 'medium',
     [styles.lg]: size === 'large',
   })
   const captionClasses = clsx(styles.caption, {
-    [styles.captionError]: meta.error,
+    [styles.captionError]: error,
     [styles.captionSm]: size === 'small',
     [styles.captionMd]: size === 'medium',
     [styles.captionLg]: size === 'large',
@@ -74,12 +77,12 @@ export const Input: React.FC<Props> = ({
       <div className={classes}>
         {<span className={styles.prefix}>{prefix}</span>}
         <input
-          id={field.name}
-          name={field.name}
+          id={name}
+          name={name}
           placeholder={placeholder}
           type={inputType}
-          value={field.value}
-          onChange={field.onChange}
+          value={value}
+          onChange={onChange}
           disabled={disabled}
         />
         {type === 'password' && revealIcon}

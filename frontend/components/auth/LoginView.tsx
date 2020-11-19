@@ -1,28 +1,19 @@
 import React from 'react'
-import { GrGoogle } from 'react-icons/gr'
+import { useRouter } from 'next/router'
 import { HiAtSymbol, HiOutlineKey } from 'react-icons/hi'
-import { Formik, Form, FormikProps } from 'formik'
-import * as Yup from 'yup'
 import { Button, Divider, Input, useUI } from 'components/ui'
 import { OAuthForm } from './OAuthForm'
 import styles from './auth.module.css'
-
-interface Values {
-  email: string
-  password: string
-}
 
 interface Props {
   csrfToken: string
 }
 
-const loginSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email').required('Required'),
-  password: Yup.string().required('Required'),
-})
-
 const LoginView: React.FC<Props> = ({ csrfToken }) => {
   const { setAuthView } = useUI()
+  const router = useRouter()
+  const { error } = router.query
+  console.log('error', error)
 
   return (
     <>
@@ -42,37 +33,34 @@ const LoginView: React.FC<Props> = ({ csrfToken }) => {
 
           <Divider>OR</Divider>
 
-          <Formik
-            initialValues={{
-              email: '',
-              password: '',
-            }}
-            onSubmit={(values, actions) => {
-              console.log(values)
-            }}
-            validationSchema={loginSchema}
+          {error && (
+            <div className={styles.error}>
+              Incorrect credentials. Did you{' '}
+              <a className={styles.reset}>forgot your password?</a>
+            </div>
+          )}
+          <form
+            className={styles.form}
+            action={`${process.env.NEXTAUTH_URL}/api/auth/callback/credentials`}
+            method="POST"
           >
-            {({ errors }: FormikProps<Values>) => (
-              <Form className={styles.form}>
-                <Input
-                  placeholder="Email Address"
-                  name="email"
-                  prefix={<HiAtSymbol />}
-                  caption={errors.email}
-                />
-                <Input
-                  type="password"
-                  placeholder="Password"
-                  name="password"
-                  prefix={<HiOutlineKey />}
-                  caption={errors.password}
-                />
-                <Button type="submit" fullWidth>
-                  Sign in
-                </Button>
-              </Form>
-            )}
-          </Formik>
+            <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+            <Input
+              placeholder="Email Address"
+              name="email"
+              type="email"
+              prefix={<HiAtSymbol />}
+            />
+            <Input
+              type="password"
+              placeholder="Password"
+              name="password"
+              prefix={<HiOutlineKey />}
+            />
+            <Button type="submit" fullWidth>
+              Sign in
+            </Button>
+          </form>
         </div>
       </div>
     </>

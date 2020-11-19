@@ -1,16 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { HiAtSymbol, HiOutlineKey, HiOutlineUserCircle } from 'react-icons/hi'
-import { Formik, Form, FormikProps } from 'formik'
+import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { Button, Divider, Input, useUI } from 'components/ui'
 import { OAuthForm } from './OAuthForm'
 import styles from './auth.module.css'
-
-interface Values {
-  username: string
-  email: string
-  password: string
-}
 
 interface Props {
   csrfToken: string
@@ -24,6 +18,35 @@ const signUpSchema = Yup.object().shape({
 
 const SignUpView: React.FC<Props> = ({ csrfToken }) => {
   const { setAuthView } = useUI()
+  const [message, setMessage] = useState<string>('')
+  const [success, setSuccess] = useState<boolean>(false)
+  const formik = useFormik({
+    initialValues: {
+      username: '',
+      email: '',
+      password: '',
+    },
+    onSubmit: async (values, actions) => {
+      actions.setSubmitting(true)
+      try {
+        const { username, email, password } = values
+        const res = await fetch(`${process.env.API_URL}/auth/local/register`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, email, password }),
+        })
+        const data = await res.json()
+        setSuccess(!!data.user)
+      } catch (err) {
+        setMessage(err.message)
+      }
+      actions.setSubmitting(false)
+    },
+    validationSchema: signUpSchema,
+  })
+  console.log(formik.errors)
 
   return (
     <>
@@ -45,44 +68,52 @@ const SignUpView: React.FC<Props> = ({ csrfToken }) => {
 
           <Divider>OR</Divider>
 
-          <Formik
-            initialValues={{
-              username: '',
-              email: '',
-              password: '',
-            }}
-            onSubmit={(values, actions) => {
-              console.log(values)
-            }}
-            validationSchema={signUpSchema}
-          >
-            {({ errors }: FormikProps<Values>) => (
-              <Form className={styles.form}>
-                <Input
-                  placeholder="Username"
-                  name="username"
-                  prefix={<HiOutlineUserCircle />}
-                  caption={errors.username}
-                />
-                <Input
-                  placeholder="Email Address"
-                  name="email"
-                  prefix={<HiAtSymbol />}
-                  caption={errors.email}
-                />
-                <Input
-                  type="password"
-                  placeholder="Password"
-                  name="password"
-                  prefix={<HiOutlineKey />}
-                  caption={errors.password}
-                />
-                <Button type="submit" fullWidth>
-                  Sign up
-                </Button>
-              </Form>
-            )}
-          </Formik>
+          {message && (
+            <div className={styles.error}>
+              Something wrong happened. Try again please.
+            </div>
+          )}
+          {success ? (
+            <div className={styles.success}>
+              User successfully created. You can sign in now.
+            </div>
+          ) : (
+            <form className={styles.form}>
+              <Input
+                placeholder="Username"
+                name="username"
+                prefix={<HiOutlineUserCircle />}
+                error={!!formik.errors.username}
+                caption={formik.errors.username}
+                onChange={formik.handleChange}
+              />
+              <Input
+                placeholder="Email Address"
+                name="email"
+                prefix={<HiAtSymbol />}
+                error={!!formik.errors.email}
+                caption={formik.errors.email}
+                onChange={formik.handleChange}
+              />
+              <Input
+                type="password"
+                placeholder="Password"
+                name="password"
+                prefix={<HiOutlineKey />}
+                error={!!formik.errors.password}
+                caption={formik.errors.password}
+                onChange={formik.handleChange}
+              />
+              <Button
+                disabled={!formik.isValid}
+                loading={formik.isSubmitting}
+                onClick={formik.handleSubmit}
+                fullWidth
+              >
+                Sign up
+              </Button>
+            </form>
+          )}
         </div>
       </div>
     </>

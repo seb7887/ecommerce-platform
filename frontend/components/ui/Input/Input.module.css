@@ -58,6 +58,10 @@
   }
 }
 
+.captionError {
+  @apply text-red-600;
+}
+
 .captionSm {
   @apply text-xs;
 }
