@@ -7,6 +7,6 @@ interface Props {
 
 export const PageTitle: React.FC<Props> = ({ title }) => (
   <Head>
-    <title>{title}</title>
+    <title>{title} | Ecommerce Platform</title>
   </Head>
 )

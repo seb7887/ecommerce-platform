@@ -3,8 +3,8 @@ import { GrGoogle } from 'react-icons/gr'
 import { HiAtSymbol, HiOutlineKey } from 'react-icons/hi'
 import { Formik, Form, FormikProps } from 'formik'
 import * as Yup from 'yup'
-import { signIn } from 'next-auth/client'
 import { Button, Divider, Input, useUI } from 'components/ui'
+import { OAuthForm } from './OAuthForm'
 import styles from './auth.module.css'
 
 interface Values {
@@ -12,21 +12,17 @@ interface Values {
   password: string
 }
 
+interface Props {
+  csrfToken: string
+}
+
 const loginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
   password: Yup.string().required('Required'),
 })
 
-const LoginView: React.FC = () => {
+const LoginView: React.FC<Props> = ({ csrfToken }) => {
   const { setAuthView } = useUI()
-
-  const handleGoogleAuth = async () => {
-    try {
-      return await signIn()
-    } catch (err) {
-      console.log(err)
-    }
-  }
 
   return (
     <>
@@ -42,11 +38,7 @@ const LoginView: React.FC = () => {
           <p className="text-base">
             You can authenticate using your email address or Google account.
           </p>
-          <div className={styles.google}>
-            <Button icon={<GrGoogle />} fullWidth onClick={handleGoogleAuth}>
-              Continue with Google
-            </Button>
-          </div>
+          <OAuthForm csrfToken={csrfToken} callbackPath="/auth" />
 
           <Divider>OR</Divider>
 
@@ -75,7 +67,9 @@ const LoginView: React.FC = () => {
                   prefix={<HiOutlineKey />}
                   caption={errors.password}
                 />
-                <Button type="submit" fullWidth>Sign in</Button>
+                <Button type="submit" fullWidth>
+                  Sign in
+                </Button>
               </Form>
             )}
           </Formik>

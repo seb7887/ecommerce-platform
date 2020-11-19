@@ -1,10 +1,15 @@
 import React from 'react'
 import { NextPage, NextPageContext } from 'next'
 import dynamic from 'next/dynamic'
+import { csrfToken } from 'next-auth/client'
 import { getSessionOrRedirect } from 'lib/auth'
 import { PageTitle } from 'components/PageTitle'
 import { LoadingDots, useUI } from 'components/ui'
 import { AdminLayout } from 'layouts'
+
+interface Props {
+  csrfToken: string
+}
 
 const Loading = () => (
   <div className="w-80 h-80 flex items-center text-center justify-center p-3">
@@ -25,15 +30,15 @@ const SignUpView = dynamic(
   dynamicProps
 )
 
-const AuthPage: NextPage = () => {
+const AuthPage: NextPage<Props> = ({ csrfToken }) => {
   const { authView } = useUI()
 
   return (
     <>
       <PageTitle title="Authenticate" />
       <AdminLayout>
-        {authView === 'LOGIN_VIEW' && <LoginView />}
-        {authView === 'SIGNUP_VIEW' && <SignUpView />}
+        {authView === 'LOGIN_VIEW' && <LoginView csrfToken={csrfToken} />}
+        {authView === 'SIGNUP_VIEW' && <SignUpView csrfToken={csrfToken} />}
       </AdminLayout>
     </>
   )
@@ -45,6 +50,7 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
   return {
     props: {
       session,
+      csrfToken: await csrfToken(ctx),
     },
   }
 }

@@ -1,9 +1,9 @@
 import React from 'react'
-import { GrGoogle } from 'react-icons/gr'
 import { HiAtSymbol, HiOutlineKey, HiOutlineUserCircle } from 'react-icons/hi'
 import { Formik, Form, FormikProps } from 'formik'
 import * as Yup from 'yup'
 import { Button, Divider, Input, useUI } from 'components/ui'
+import { OAuthForm } from './OAuthForm'
 import styles from './auth.module.css'
 
 interface Values {
@@ -12,13 +12,17 @@ interface Values {
   password: string
 }
 
+interface Props {
+  csrfToken: string
+}
+
 const signUpSchema = Yup.object().shape({
   username: Yup.string().required('Required'),
   email: Yup.string().email('Invalid email').required('Required'),
   password: Yup.string().required('Required'),
 })
 
-const SignUpView: React.FC = () => {
+const SignUpView: React.FC<Props> = ({ csrfToken }) => {
   const { setAuthView } = useUI()
 
   return (
@@ -37,11 +41,7 @@ const SignUpView: React.FC = () => {
           <p className="text-base">
             Upgrade or downgrade anytime. No credit card required.
           </p>
-          <div className={styles.google}>
-            <Button icon={<GrGoogle />} fullWidth>
-              Continue with Google
-            </Button>
-          </div>
+          <OAuthForm csrfToken={csrfToken} callbackPath="/auth" />
 
           <Divider>OR</Divider>
 
@@ -77,7 +77,9 @@ const SignUpView: React.FC = () => {
                   prefix={<HiOutlineKey />}
                   caption={errors.password}
                 />
-                <Button type="submit" fullWidth>Sign up</Button>
+                <Button type="submit" fullWidth>
+                  Sign up
+                </Button>
               </Form>
             )}
           </Formik>
