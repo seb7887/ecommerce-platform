@@ -1,0 +1,12 @@
+{
+  "name": "ecommerce-platform",
+  "version": "1.0.0",
+  "description": "Ecommerce Platform",
+  "main": "index.js",
+  "repository": "git@github.com:seb7887/ecommerce-platform.git",
+  "author": "Sebastian Matias Segura <segurasebastian7887@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "yarn --cwd ./frontend test"
+  }
+}
