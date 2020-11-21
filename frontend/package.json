@@ -74,6 +74,7 @@
     "eslint-plugin-unicorn": "^23.0.0",
     "faker": "^5.1.0",
     "jest": "^26.5.3",
+    "jest-fetch-mock": "^3.0.3",
     "postcss-loader": "^4.0.4",
     "postcss-nested": "4.2.3",
     "postcss-selector-parser": "6.0.2",
@@ -96,11 +97,16 @@
       "tsx",
       "js"
     ],
+    "moduleNameMapper": {
+      "components/(.*)": "<rootDir>/components/$1"
+    },
     "transform": {
-      "^.+\\.(ts|tsx)$": "babel-jest"
+      "^.+\\.(ts|tsx)$": "babel-jest",
+      "^.+\\.css$": "<rootDir>/config/cssTransform.js"
     },
     "testPathIgnorePatterns": [
-      "<rootDir>[/\\\\](node_modules|.next|cypress)[/\\\\]"
+      "<rootDir>[/\\\\](node_modules|.next|cypress)[/\\\\]",
+      "^.+\\.module.\\.(css|sass|scss)$"
     ],
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\].+\\.(ts|tsx)$"

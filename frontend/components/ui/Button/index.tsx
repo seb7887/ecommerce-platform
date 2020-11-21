@@ -12,6 +12,7 @@ interface Props {
   loading?: boolean
   fullWidth?: boolean
   type?: 'button' | 'submit' | 'reset'
+  testId?: string
   onClick?: () => void | Promise<void>
 }
 
@@ -25,6 +26,7 @@ export const Button: React.FC<Props> = ({
   loading,
   fullWidth,
   type = 'button',
+  testId,
   onClick,
 }) => {
   const classes = clsx(styles.root, {
@@ -54,6 +56,7 @@ export const Button: React.FC<Props> = ({
       className={classes}
       disabled={disabled}
       onClick={onClick}
+      data-testid={testId}
     >
       <div className={contentClasses}>
         {icon}

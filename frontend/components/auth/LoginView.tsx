@@ -13,20 +13,23 @@ const LoginView: React.FC<Props> = ({ csrfToken }) => {
   const { setAuthView } = useUI()
   const router = useRouter()
   const { error } = router.query
-  console.log('error', error)
 
   return (
     <>
       <div className={styles.link}>
         <p>
           Don't have an account yet?{' '}
-          <a onClick={() => setAuthView('SIGNUP_VIEW')}>Sign up</a>
+          <a onClick={() => setAuthView('SIGNUP_VIEW')} data-testid="link">
+            Sign up
+          </a>
         </p>
       </div>
       <div className={styles.container}>
         <div className={styles.content}>
-          <h1 className="text-2xl font-bold">Sign in to the Platform</h1>
-          <p className="text-base">
+          <h1 className="text-2xl font-bold" data-testid="form-title">
+            Sign in to the Platform
+          </h1>
+          <p className="text-base" data-testid="form-message">
             You can authenticate using your email address or Google account.
           </p>
           <OAuthForm csrfToken={csrfToken} callbackPath="/auth" />
@@ -34,7 +37,7 @@ const LoginView: React.FC<Props> = ({ csrfToken }) => {
           <Divider>OR</Divider>
 
           {error && (
-            <div className={styles.error}>
+            <div className={styles.error} data-testid="error">
               Incorrect credentials. Did you{' '}
               <a className={styles.reset}>forgot your password?</a>
             </div>
@@ -50,14 +53,16 @@ const LoginView: React.FC<Props> = ({ csrfToken }) => {
               name="email"
               type="email"
               prefix={<HiAtSymbol />}
+              data-testid="email"
             />
             <Input
               type="password"
               placeholder="Password"
               name="password"
               prefix={<HiOutlineKey />}
+              data-testid="password"
             />
-            <Button type="submit" fullWidth>
+            <Button type="submit" fullWidth data-testid="submit">
               Sign in
             </Button>
           </form>

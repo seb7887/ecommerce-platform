@@ -84,6 +84,7 @@ export const Input: React.FC<Props> = ({
           value={value}
           onChange={onChange}
           disabled={disabled}
+          data-testid={name}
         />
         {type === 'password' && revealIcon}
       </div>

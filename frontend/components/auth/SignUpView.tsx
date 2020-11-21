@@ -46,22 +46,23 @@ const SignUpView: React.FC<Props> = ({ csrfToken }) => {
     },
     validationSchema: signUpSchema,
   })
-  console.log(formik.errors)
 
   return (
     <>
       <div className={styles.link}>
         <p>
           Already have an account?{' '}
-          <a onClick={() => setAuthView('LOGIN_VIEW')}>Sign in</a>
+          <a onClick={() => setAuthView('LOGIN_VIEW')} data-testid="link">
+            Sign in
+          </a>
         </p>
       </div>
       <div className={styles.container}>
         <div className={styles.content}>
-          <h1 className="text-2xl font-bold">
+          <h1 className="text-2xl font-bold" data-testid="form-title">
             Sign up and start using the Platform
           </h1>
-          <p className="text-base">
+          <p className="text-base" data-testid="form-message">
             Upgrade or downgrade anytime. No credit card required.
           </p>
           <OAuthForm csrfToken={csrfToken} callbackPath="/auth" />
@@ -69,12 +70,12 @@ const SignUpView: React.FC<Props> = ({ csrfToken }) => {
           <Divider>OR</Divider>
 
           {message && (
-            <div className={styles.error}>
+            <div className={styles.error} data-testid="error">
               Something wrong happened. Try again please.
             </div>
           )}
           {success ? (
-            <div className={styles.success}>
+            <div className={styles.success} data-testid="success">
               User successfully created. You can sign in now.
             </div>
           ) : (
@@ -109,6 +110,7 @@ const SignUpView: React.FC<Props> = ({ csrfToken }) => {
                 loading={formik.isSubmitting}
                 onClick={formik.handleSubmit}
                 fullWidth
+                testId="submit"
               >
                 Sign up
               </Button>
