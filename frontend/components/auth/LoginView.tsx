@@ -62,7 +62,7 @@ const LoginView: React.FC<Props> = ({ csrfToken }) => {
               prefix={<HiOutlineKey />}
               data-testid="password"
             />
-            <Button type="submit" fullWidth data-testid="submit">
+            <Button type="submit" fullWidth testId="submit">
               Sign in
             </Button>
           </form>

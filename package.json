@@ -7,6 +7,12 @@
   "author": "Sebastian Matias Segura <segurasebastian7887@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "yarn --cwd ./frontend test"
+    "test": "yarn --cwd ./frontend test",
+    "integration": "yarn --cwd ./frontend test:e2e:ci",
+    "dev": "DATABASE_NAME=ecommerce-test yarn --cwd ./backend dev",
+    "test:e2e": "start-server-and-test dev http://localhost:1337 integration"
+  },
+  "devDependencies": {
+    "start-server-and-test": "^1.11.6"
   }
 }
