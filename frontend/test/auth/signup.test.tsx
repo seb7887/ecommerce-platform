@@ -1,12 +1,20 @@
 import React from 'react'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
-
+import { AuthProvider } from '../../lib/auth'
 import { SignUpView } from '../../components/auth'
+
+const push = jest.fn()
+
+const useRouter = jest.spyOn(require('next/router'), 'useRouter')
 
 beforeEach(() => fetch.resetMocks())
 
 test('loads and displays sign up info', () => {
-  render(<SignUpView csrfToken="test" />)
+  render(
+    <AuthProvider>
+      <SignUpView />
+    </AuthProvider>
+  )
 
   expect(screen.getByTestId('link').textContent).toBe('Sign in')
   expect(screen.getByTestId('form-title').textContent).toBe(
@@ -18,9 +26,19 @@ test('loads and displays sign up info', () => {
 })
 
 test('signs up a new user', async () => {
-  render(<SignUpView csrfToken="test" />)
+  useRouter.mockImplementation(() => ({
+    push,
+  }))
 
-  fetch.mockResponseOnce(JSON.stringify({ user: { name: 'test' } }))
+  render(
+    <AuthProvider>
+      <SignUpView />
+    </AuthProvider>
+  )
+
+  fetch.mockResponseOnce(
+    JSON.stringify({ jwt: 'testJwt', user: { id: 'test' } })
+  )
 
   fireEvent.change(screen.getByTestId('username'), {
     target: { value: 'test' },
@@ -33,17 +51,19 @@ test('signs up a new user', async () => {
   })
   fireEvent.click(screen.getByTestId('submit'))
 
-  await waitFor(() => screen.findByTestId('success'))
+  await waitFor(() => expect(push).toHaveBeenCalledTimes(1))
 
-  expect(screen.getByTestId('success').textContent).toBe(
-    'User successfully created. You can sign in now.'
-  )
+  expect(push).toHaveBeenCalledWith('/')
 })
 
 test('shows error', async () => {
-  render(<SignUpView csrfToken="test" />)
+  render(
+    <AuthProvider>
+      <SignUpView />
+    </AuthProvider>
+  )
 
-  fetch.mockRejectOnce(new Error('test error'))
+  fetch.mockRejectOnce(new Error('Test error'))
 
   fireEvent.change(screen.getByTestId('username'), {
     target: { value: 'test' },

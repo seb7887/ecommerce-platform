@@ -13,6 +13,6 @@ We can create a new **Google OAuth Client** and copy the credentials (Client ID 
 - Add the following Authorized redirect URIs:
 
 ```
-http://localhost:3000/api/auth/callback/google
+http://localhost:3000/auth/google/callback
 http://localhost:1337/connect/google/callback
 ```

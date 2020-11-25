@@ -1,11 +1,11 @@
 import { NextPageContext } from 'next'
-import { getSession } from 'next-auth/client'
 import { redirectUser } from 'lib/nav'
+import { authenticateSsr } from 'lib/token'
 
 export const getSessionOrRedirectPromise = (
   isProtectedRoute?: boolean
 ) => async (ctx: NextPageContext) => {
-  const session = await getSession(ctx)
+  const session = await authenticateSsr(ctx)
   const currentPath = ctx.req ? ctx.req.url : window.location.pathname
 
   if (

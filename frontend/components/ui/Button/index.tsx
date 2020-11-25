@@ -13,7 +13,7 @@ interface Props {
   fullWidth?: boolean
   type?: 'button' | 'submit' | 'reset'
   testId?: string
-  onClick?: () => void | Promise<void>
+  onClick?: (e?: React.SyntheticEvent) => void | Promise<void>
 }
 
 export const Button: React.FC<Props> = ({

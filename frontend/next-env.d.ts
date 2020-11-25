@@ -40,3 +40,8 @@ interface Account {
   accessToken: string
   accessTokenExpires: string
 }
+
+interface Credentials {
+  email: string
+  password: string
+}

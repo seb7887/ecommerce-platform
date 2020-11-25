@@ -9,7 +9,7 @@ it('signs up a new user', () => {
   cy.findByTestId('email').click().type(user.email)
   cy.findByTestId('password').click().type(user.password)
   cy.findByTestId('submit').click()
-  cy.findByTestId('success').should('exist')
+  cy.findByTestId('error').should('not.exist')
 })
 
 it('signs in an existing user', () => {
@@ -17,4 +17,5 @@ it('signs in an existing user', () => {
   cy.findByTestId('email').click().type(user.email)
   cy.findByTestId('password').click().type(user.password)
   cy.findByTestId('submit').click()
+  cy.findByTestId('error').should('not.exist')
 })

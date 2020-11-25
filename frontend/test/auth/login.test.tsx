@@ -1,19 +1,20 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { AuthProvider } from '../../lib/auth'
 import { LoginView } from '../../components/auth'
 
-jest.mock('next/router', () => ({
-  useRouter() {
-    return {
-      query: {},
-    }
-  },
-}))
+const push = jest.fn()
 
 const useRouter = jest.spyOn(require('next/router'), 'useRouter')
 
+beforeEach(() => fetch.resetMocks())
+
 test('loads and displays sign in info', () => {
-  render(<LoginView csrfToken="test" />)
+  render(
+    <AuthProvider>
+      <LoginView />
+    </AuthProvider>
+  )
 
   expect(screen.getByTestId('link').textContent).toBe('Sign up')
   expect(screen.getByTestId('form-title').textContent).toBe(
@@ -24,13 +25,52 @@ test('loads and displays sign in info', () => {
   )
 })
 
-test('displays error message', () => {
+test('signs in a valid user', async () => {
   useRouter.mockImplementation(() => ({
-    query: {
-      error: 'true',
-    },
+    push,
   }))
-  render(<LoginView csrfToken="test" />)
+
+  render(
+    <AuthProvider>
+      <LoginView />
+    </AuthProvider>
+  )
+
+  fetch.mockResponseOnce(
+    JSON.stringify({ jwt: 'testJwt', user: { id: 'test' } })
+  )
+
+  fireEvent.change(screen.getByTestId('email'), {
+    target: { value: 'test@test.com' },
+  })
+  fireEvent.change(screen.getByTestId('password'), {
+    target: { value: 'test1234' },
+  })
+  fireEvent.click(screen.getByTestId('submit'))
+
+  await waitFor(() => expect(push).toHaveBeenCalledTimes(1))
+
+  expect(push).toHaveBeenCalledWith('/')
+})
+
+test('displays error message', async () => {
+  render(
+    <AuthProvider>
+      <LoginView />
+    </AuthProvider>
+  )
+
+  fetch.mockRejectOnce(new Error('Test error'))
+
+  fireEvent.change(screen.getByTestId('email'), {
+    target: { value: 'test@test.com' },
+  })
+  fireEvent.change(screen.getByTestId('password'), {
+    target: { value: 'test1234' },
+  })
+  fireEvent.click(screen.getByTestId('submit'))
+
+  await waitFor(() => screen.findByTestId('error'))
 
   expect(screen.getByTestId('error').textContent).toBe(
     'Incorrect credentials. Did you forgot your password?'

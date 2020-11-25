@@ -1,18 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
 import { HiAtSymbol, HiOutlineKey } from 'react-icons/hi'
+import { useAuth } from 'lib/auth'
 import { Button, Divider, Input, useUI } from 'components/ui'
 import { OAuthForm } from './OAuthForm'
 import styles from './auth.module.css'
 
-interface Props {
-  csrfToken: string
-}
+const schema = Yup.object().shape({
+  email: Yup.string().email('Invalid email format').required(),
+  password: Yup.string().required(),
+})
 
-const LoginView: React.FC<Props> = ({ csrfToken }) => {
+const LoginView: React.FC = () => {
+  const [error, setError] = useState<string>('')
   const { setAuthView } = useUI()
+  const { login } = useAuth()
   const router = useRouter()
-  const { error } = router.query
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    onSubmit: async (values, { setSubmitting }) => {
+      setSubmitting(true)
+      try {
+        await login(values)
+        router.push('/')
+      } catch (err) {
+        setError(err.message)
+      }
+      setSubmitting(false)
+    },
+    validationSchema: schema,
+  })
 
   return (
     <>
@@ -32,7 +54,7 @@ const LoginView: React.FC<Props> = ({ csrfToken }) => {
           <p className="text-base" data-testid="form-message">
             You can authenticate using your email address or Google account.
           </p>
-          <OAuthForm csrfToken={csrfToken} callbackPath="/auth" />
+          <OAuthForm />
 
           <Divider>OR</Divider>
 
@@ -42,17 +64,15 @@ const LoginView: React.FC<Props> = ({ csrfToken }) => {
               <a className={styles.reset}>forgot your password?</a>
             </div>
           )}
-          <form
-            className={styles.form}
-            action={`${process.env.NEXTAUTH_URL}/api/auth/callback/credentials`}
-            method="POST"
-          >
-            <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+          <form className={styles.form}>
             <Input
               placeholder="Email Address"
               name="email"
               type="email"
               prefix={<HiAtSymbol />}
+              error={!!formik.errors.email}
+              caption={formik.errors.email}
+              onChange={formik.handleChange}
               data-testid="email"
             />
             <Input
@@ -60,9 +80,17 @@ const LoginView: React.FC<Props> = ({ csrfToken }) => {
               placeholder="Password"
               name="password"
               prefix={<HiOutlineKey />}
+              error={!!formik.errors.password}
+              caption={formik.errors.password}
+              onChange={formik.handleChange}
               data-testid="password"
             />
-            <Button type="submit" fullWidth testId="submit">
+            <Button
+              fullWidth
+              onClick={formik.handleSubmit}
+              loading={formik.isSubmitting}
+              testId="submit"
+            >
               Sign in
             </Button>
           </form>
