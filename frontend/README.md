@@ -16,3 +16,7 @@ We can create a new **Google OAuth Client** and copy the credentials (Client ID 
 http://localhost:3000/auth/google/callback
 http://localhost:1337/connect/google/callback
 ```
+
+## Production URL
+
+`https://ecommerce-platform.vercel.app/`
