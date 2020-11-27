@@ -1,45 +1,19 @@
-name: Ecommerce Platform CI/CD
+name: Deploy Query Service
 
-on: pull_request
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
-    services:
-      postgres:
-        image: postgres:10.8
-        ports:
-          - 5432:5432
-        # needed because the postgres container does not provide a healthcheck
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
     steps:
-      - uses: actions/checkout@v1
-
-      - name: Cache node modules
-        uses: actions/cache@v1.1.0
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.6.8
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2.1.2
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: npm install -g yarn
-
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Unit tests
-        run: yarn test
-
-      - name: E2E tests
-        env:
-          DATABASE_NAME: postgres
-        run: yarn test:e2e:ci
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.QS_APP_NAME}}
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          usedocker: true
+          appdir: "query-service"
