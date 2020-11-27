@@ -562,6 +562,9 @@
               "sold": {
                 "type": "integer"
               },
+              "active": {
+                "type": "boolean"
+              },
               "published_at": {
                 "type": "string"
               },

@@ -6,6 +6,7 @@ interface Props {
   color?: Color | 'default'
   size?: Size
   disabled?: boolean
+  onClick?: (e?: React.SyntheticEvent) => void | Promise<void>
 }
 
 export const IconButton: React.FC<Props> = ({
@@ -13,6 +14,7 @@ export const IconButton: React.FC<Props> = ({
   color = 'default',
   size = 'medium',
   disabled,
+  onClick,
 }) => {
   const classes = clsx(styles.root, {
     [styles.default]: color === 'default',
@@ -25,5 +27,16 @@ export const IconButton: React.FC<Props> = ({
     [styles.lg]: size === 'large',
   })
 
-  return <div className={classes}>{children}</div>
+  const handleClick = (e: React.SyntheticEvent) => {
+    e.preventDefault()
+    if (onClick) {
+      onClick()
+    }
+  }
+
+  return (
+    <div className={classes} onClick={handleClick}>
+      {children}
+    </div>
+  )
 }
