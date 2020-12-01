@@ -1,0 +1,33 @@
+.root {
+  @apply flex flex-col items-center justify-center font-bold text-gray-500;
+}
+
+.sm {
+  @apply text-sm;
+
+  svg {
+    @apply mb-2;
+    width: 100px;
+    height: 100px;
+  }
+}
+
+.md {
+  @apply text-base;
+
+  svg {
+    @apply mb-4;
+    width: 150px;
+    height: 150px;
+  }
+}
+
+.lg {
+  @apply text-lg;
+
+  svg {
+    @apply mb-6;
+    width: 200px;
+    height: 200px;
+  }
+}

@@ -18,3 +18,7 @@
     transform: translateX(100%);
   }
 }
+
+.disabled {
+  @apply cursor-default opacity-40;
+}

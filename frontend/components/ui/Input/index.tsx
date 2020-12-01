@@ -43,6 +43,7 @@ export const Input: React.FC<Props> = ({
     [styles.sm]: size === 'small',
     [styles.md]: size === 'medium',
     [styles.lg]: size === 'large',
+    [styles.disabled]: disabled,
   })
   const captionClasses = clsx(styles.caption, {
     [styles.captionError]: error,
