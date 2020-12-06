@@ -16,8 +16,17 @@ stories.addDecorator(withKnobs)
 
 stories.add('Example', () => {
   return (
-    <LoadingDots
-      color={select('Color', options, options.Transparent) as ColorType}
-    />
+    <div
+      style={{
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <LoadingDots
+        color={select('Color', options, options.Transparent) as ColorType}
+      />
+    </div>
   )
 })

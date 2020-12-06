@@ -1,0 +1,42 @@
+.root {
+  @apply flex items-center transition-all justify-around w-48 m-auto py-2 shadow-md border rounded-md font-bold;
+  animation: fadeIn 600ms;
+}
+
+.success {
+  @apply bg-green-500 text-white;
+}
+
+.warning {
+  @apply bg-yellow-500 text-white;
+}
+
+.error {
+  @apply bg-red-600 text-white;
+}
+
+.message {
+  @apply flex items-center;
+
+  svg {
+    @apply mr-2;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 100%;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 100%;
+  }
+  100% {
+    opacity: 0;
+  }
+}

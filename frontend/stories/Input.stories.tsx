@@ -15,14 +15,23 @@ stories.addDecorator(withKnobs)
 
 stories.add('Default', () => {
   return (
-    <Input
-      name="test"
-      label="Text"
-      size={select('Size', sizeOptions, sizeOptions.Medium) as Size}
-      placeholder={text('Placeholder', 'Example placeholder')}
-      disabled={boolean('Disabled', false)}
-      error={boolean('Error', false)}
-    />
+    <div
+      style={{
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <Input
+        name="test"
+        label="Text"
+        size={select('Size', sizeOptions, sizeOptions.Medium) as Size}
+        placeholder={text('Placeholder', 'Example placeholder')}
+        disabled={boolean('Disabled', false)}
+        error={boolean('Error', false)}
+      />
+    </div>
   )
 })
 

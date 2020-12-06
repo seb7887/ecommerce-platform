@@ -29,5 +29,16 @@ const items: ThreeDotMenuItem[] = [
 ]
 
 stories.add('Example', () => {
-  return <ThreeDotMenu items={items} />
+  return (
+    <div
+      style={{
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <ThreeDotMenu items={items} />
+    </div>
+  )
 })

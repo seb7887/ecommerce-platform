@@ -8,10 +8,19 @@ stories.addDecorator(withKnobs)
 
 stories.add('Two-state', () => {
   return (
-    <Switch
-      checked={boolean('Checked', false)}
-      disabled={boolean('Disabled', false)}
-      onChange={(v: boolean) => console.log('key', v)}
-    />
+    <div
+      style={{
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <Switch
+        checked={boolean('Checked', false)}
+        disabled={boolean('Disabled', false)}
+        onChange={(v: boolean) => console.log('key', v)}
+      />
+    </div>
   )
 })

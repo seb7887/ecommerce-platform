@@ -50,13 +50,22 @@ stories.addDecorator(withKnobs)
 
 stories.add('Example', () => {
   return (
-    <Table
-      columns={columns}
-      data={data}
-      total={number('Total Items', data.length)}
-      pageNumber={number('Page', 1)}
-      pageSize={number('Page Size', 6)}
-      onSort={(f: string, order: any) => console.log(`${f}:${order}`)}
-    />
+    <div
+      style={{
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <Table
+        columns={columns}
+        data={data}
+        total={number('Total Items', data.length)}
+        pageNumber={number('Page', 1)}
+        pageSize={number('Page Size', 6)}
+        onSort={(f: string, order: any) => console.log(`${f}:${order}`)}
+      />
+    </div>
   )
 })

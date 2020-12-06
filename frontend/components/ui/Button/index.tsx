@@ -13,6 +13,7 @@ interface Props {
   fullWidth?: boolean
   type?: 'button' | 'submit' | 'reset'
   testId?: string
+  ref?: React.RefObject<any>
   onClick?: (e?: React.SyntheticEvent) => void | Promise<void>
 }
 
@@ -28,6 +29,7 @@ export const Button: React.FC<Props> = ({
   type = 'button',
   testId,
   onClick,
+  ref,
 }) => {
   const classes = clsx(styles.root, {
     [styles.primaryContained]: variant === 'contained' && color === 'primary',
@@ -57,6 +59,7 @@ export const Button: React.FC<Props> = ({
       disabled={disabled}
       onClick={onClick}
       data-testid={testId}
+      ref={ref}
     >
       <div className={contentClasses}>
         {icon}

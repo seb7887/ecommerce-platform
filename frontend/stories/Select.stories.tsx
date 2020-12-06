@@ -33,12 +33,21 @@ const options: SelectOptions[] = [
 
 stories.add('Example', () => {
   return (
-    <Select
-      name="test"
-      options={options}
-      label="Example"
-      disabled={boolean('Disabled', false)}
-      size={select('Size', sizeOptions, sizeOptions.Medium) as Size}
-    />
+    <div
+      style={{
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <Select
+        name="test"
+        options={options}
+        label="Example"
+        disabled={boolean('Disabled', false)}
+        size={select('Size', sizeOptions, sizeOptions.Medium) as Size}
+      />
+    </div>
   )
 })

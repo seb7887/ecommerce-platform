@@ -20,13 +20,22 @@ stories.addDecorator(withKnobs)
 
 stories.add('Example', () => {
   return (
-    <Empty
-      variant={
-        select('Variant', variantOptions, variantOptions.NotFound) as any
-      }
-      size={select('Size', sizeOptions, sizeOptions.Medium) as Size}
+    <div
+      style={{
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
     >
-      There is no data to fill up this table yet
-    </Empty>
+      <Empty
+        variant={
+          select('Variant', variantOptions, variantOptions.NotFound) as any
+        }
+        size={select('Size', sizeOptions, sizeOptions.Medium) as Size}
+      >
+        There is no data to fill up this table yet
+      </Empty>
+    </div>
   )
 })

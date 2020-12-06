@@ -26,17 +26,26 @@ stories.addDecorator(withKnobs)
 
 stories.add('Default', () => {
   return (
-    <Button
-      variant={
-        select('Variant', variantOptions, variantOptions.Contained) as Variant
-      }
-      size={select('Size', sizeOptions, sizeOptions.Medium) as Size}
-      color={select('Color', colorOptions, colorOptions.Primary) as Color}
-      disabled={boolean('Disabled', false)}
-      loading={boolean('Loading', false)}
+    <div
+      style={{
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
     >
-      Button
-    </Button>
+      <Button
+        variant={
+          select('Variant', variantOptions, variantOptions.Contained) as Variant
+        }
+        size={select('Size', sizeOptions, sizeOptions.Medium) as Size}
+        color={select('Color', colorOptions, colorOptions.Primary) as Color}
+        disabled={boolean('Disabled', false)}
+        loading={boolean('Loading', false)}
+      >
+        Button
+      </Button>
+    </div>
   )
 })
 

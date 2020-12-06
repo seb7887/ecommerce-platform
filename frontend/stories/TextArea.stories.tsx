@@ -6,10 +6,19 @@ const stories = storiesOf('TextArea', module)
 
 stories.add('Example', () => {
   return (
-    <TextArea
-      label="TextArea"
-      name="test"
-      onChange={() => console.log('hey')}
-    />
+    <div
+      style={{
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <TextArea
+        label="TextArea"
+        name="test"
+        onChange={() => console.log('hey')}
+      />
+    </div>
   )
 })
