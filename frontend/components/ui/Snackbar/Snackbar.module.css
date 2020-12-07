@@ -1,6 +1,8 @@
 .root {
-  @apply flex items-center transition-all justify-around w-48 m-auto py-2 shadow-md border rounded-md font-bold;
+  @apply absolute inset-0 z-50 flex items-center transition-all justify-around w-48 m-auto py-2 shadow-md border rounded-md font-bold;
   animation: fadeIn 600ms;
+  top: 80%;
+  height: 42px;
 }
 
 .success {

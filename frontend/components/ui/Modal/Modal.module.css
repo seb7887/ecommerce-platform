@@ -1,0 +1,26 @@
+.root {
+  @apply fixed flex items-center inset-0 z-50 justify-center transition-all;
+  background-color: rgba(0, 0, 0, 0.45);
+  animation: fadeIn 600ms;
+}
+
+.modal {
+  @apply border bg-white shadow-sm px-4 pb-4 pt-2 rounded-md;
+}
+
+.modal:focus {
+  @apply outline-none;
+}
+
+.x {
+  @apply h-7 flex items-center justify-end w-full;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
