@@ -39,3 +39,7 @@
   border-top-left-radius: 32px;
   border-bottom-left-radius: 32px;
 }
+
+.active:hover {
+  @apply opacity-100;
+}
