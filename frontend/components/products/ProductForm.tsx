@@ -1,7 +1,8 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { Input, TextArea, Button, Switch } from 'components/ui'
+import { Uploader } from 'components/uploader'
 import styles from './ProductForm.module.css'
 
 interface Props {
@@ -11,6 +12,7 @@ interface Props {
 
 const schema = Yup.object().shape<Product>({
   name: Yup.string().required(),
+  author: Yup.string().required(),
   description: Yup.string().required(),
   price: Yup.number().positive().required(),
   cost: Yup.number().positive().required(),
@@ -20,6 +22,7 @@ const schema = Yup.object().shape<Product>({
 const ProductForm: React.FC<Props> = ({ initialState, onSubmit }) => {
   const defaultState: Product = {
     name: '',
+    author: '',
     description: '',
     price: 1,
     cost: 1,
@@ -27,20 +30,13 @@ const ProductForm: React.FC<Props> = ({ initialState, onSubmit }) => {
     image: '',
     active: true,
   }
-  const hiddenFileInput = useRef(null)
-  const [fileInput, setFileInput] = useState<string>('')
   const formik = useFormik({
     initialValues: initialState || defaultState,
     validationSchema: schema,
     onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true)
-      try {
-        await onSubmit(values)
-      } catch (err) {
-        console.log(err)
-      } finally {
-        setSubmitting(false)
-      }
+      await onSubmit(values)
+      setSubmitting(false)
     },
   })
 
@@ -51,9 +47,12 @@ const ProductForm: React.FC<Props> = ({ initialState, onSubmit }) => {
     [formik]
   )
 
-  const uploadPic = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e)
-  }, [])
+  const changeImage = useCallback(
+    (img: string) => {
+      formik.setFieldValue('image', img)
+    },
+    [formik]
+  )
 
   return (
     <form className={styles.root}>
@@ -66,6 +65,15 @@ const ProductForm: React.FC<Props> = ({ initialState, onSubmit }) => {
           caption={formik.errors.name}
           onChange={formik.handleChange}
           data-testid="name"
+        />
+        <Input
+          name="author"
+          label="Author"
+          value={formik.values.author}
+          error={!!formik.errors.author}
+          caption={formik.errors.author}
+          onChange={formik.handleChange}
+          data-testid="author"
         />
         <TextArea
           name="description"
@@ -119,17 +127,11 @@ const ProductForm: React.FC<Props> = ({ initialState, onSubmit }) => {
             />
           </div>
         </div>
-        <div className={styles.field}>
-          <label>Image</label>
-          <input
-            type="file"
-            ref={hiddenFileInput}
-            key={fileInput}
-            onChange={uploadPic}
-            style={{ display: 'none' }}
-          />
-          {formik.values.image === '' ? <a>+ Add image</a> : <p>Images here</p>}
-        </div>
+        <Uploader
+          label="Image"
+          image={formik.values.image}
+          onChange={changeImage}
+        />
       </div>
       <div className={styles.submit}>
         <Button

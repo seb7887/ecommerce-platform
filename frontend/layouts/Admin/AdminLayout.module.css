@@ -18,11 +18,11 @@
 }
 
 .menu {
-  @apply mt-24 flex flex-col items-center text-white text-lg font-bold w-full;
+  @apply mt-24 flex flex-col text-white text-lg font-bold w-full;
 }
 
 .item {
-  @apply flex items-center justify-center cursor-pointer transition-all duration-300 w-full pr-4;
+  @apply flex items-center pl-20 text-left cursor-pointer transition-all duration-300 w-full pr-4;
   height: 64px;
 
   svg {

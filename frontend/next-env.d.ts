@@ -49,6 +49,7 @@ interface Credentials {
 interface Product {
   id?: string | number
   name: string
+  author: string
   description: string
   price: number
   cost: number

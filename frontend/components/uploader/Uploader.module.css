@@ -1,0 +1,27 @@
+.root {
+  @apply flex flex-col;
+}
+
+.hidden {
+  display: none;
+}
+
+.action {
+  @apply font-bold text-indigo-900 transition-all duration-300 cursor-pointer;
+}
+
+.action:hover {
+  @apply text-indigo-600;
+}
+
+.error {
+  @apply text-red-700;
+}
+
+.image {
+  @apply flex items-center;
+
+  p {
+    @apply ml-2;
+  }
+}

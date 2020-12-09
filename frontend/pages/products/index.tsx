@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { NextPage, NextPageContext } from 'next'
 import dynamic from 'next/dynamic'
 import { HiOutlinePlus } from 'react-icons/hi'
@@ -6,7 +6,14 @@ import { getSessionOrRedirect } from 'lib/auth'
 import { Header } from 'components/header'
 import { PageTitle } from 'components/PageTitle'
 import { ModalHeader } from 'components/products'
-import { IconButton, Tooltip, Modal, LoadingDots, useUI } from 'components/ui'
+import {
+  IconButton,
+  Tooltip,
+  Modal,
+  LoadingDots,
+  Snackbar,
+  useUI,
+} from 'components/ui'
 import { AdminLayout } from 'layouts'
 
 const Loading = () => (
@@ -42,6 +49,7 @@ const AdminProductsPage: NextPage<Props> = ({ session }) => {
     modalView,
     setModalView,
   } = useUI()
+  const [severity, setSeverity] = useState<'success' | 'error' | null>(null)
   const single = modalView !== 'PRODUCT_BATCH'
 
   const changeModalView = useCallback(
@@ -51,9 +59,25 @@ const AdminProductsPage: NextPage<Props> = ({ session }) => {
     [setModalView]
   )
 
-  const create = useCallback((v: Product) => {
-    console.log(v)
-  }, [])
+  const create = useCallback(
+    async (v: Product) => {
+      try {
+        await fetch(`${process.env.API_URL}/products`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${session}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(v),
+        })
+        setSeverity('success')
+        closeModal()
+      } catch (err) {
+        setSeverity('error')
+      }
+    },
+    [session, closeModal]
+  )
 
   return (
     <>
@@ -68,6 +92,16 @@ const AdminProductsPage: NextPage<Props> = ({ session }) => {
               </IconButton>
             </Tooltip>
           }
+        />
+        <Snackbar
+          open={!!severity}
+          message={
+            severity === 'error'
+              ? 'Error during creation. Try again.'
+              : 'Product created'
+          }
+          severity={severity}
+          onClose={() => setSeverity(null)}
         />
         <Modal open={displayModal} onClose={() => closeModal()}>
           <ModalHeader single={single} onClick={changeModalView} />
