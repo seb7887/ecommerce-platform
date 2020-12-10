@@ -17,3 +17,7 @@
 .submit {
   @apply flex justify-end;
 }
+
+.hidden {
+  display: none;
+}

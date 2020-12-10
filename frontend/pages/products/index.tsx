@@ -79,6 +79,26 @@ const AdminProductsPage: NextPage<Props> = ({ session }) => {
     [session, closeModal]
   )
 
+  const massivePublish = useCallback(
+    async (v: Product[]) => {
+      try {
+        await fetch(`${process.env.API_URL}/products/bulk`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${session}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(v),
+        })
+        setSeverity('success')
+        closeModal()
+      } catch (err) {
+        setSeverity('error')
+      }
+    },
+    [session, closeModal]
+  )
+
   return (
     <>
       <PageTitle title="Products" />
@@ -98,7 +118,7 @@ const AdminProductsPage: NextPage<Props> = ({ session }) => {
           message={
             severity === 'error'
               ? 'Error during creation. Try again.'
-              : 'Product created'
+              : 'Published!'
           }
           severity={severity}
           onClose={() => setSeverity(null)}
@@ -108,7 +128,9 @@ const AdminProductsPage: NextPage<Props> = ({ session }) => {
           {modalView === 'PRODUCT_FORM' && (
             <ProductFormView onSubmit={create} />
           )}
-          {modalView === 'PRODUCT_MASSIVE' && <MassiveView />}
+          {modalView === 'PRODUCT_MASSIVE' && (
+            <MassiveView onSubmit={massivePublish} />
+          )}
         </Modal>
       </AdminLayout>
     </>
