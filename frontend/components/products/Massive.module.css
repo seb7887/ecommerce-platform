@@ -1,0 +1,19 @@
+.info {
+  @apply mb-2;
+}
+
+.steps {
+  @apply mb-4 list-decimal px-4;
+}
+
+.action {
+  @apply text-indigo-900 font-bold transition-all duration-300 cursor-pointer;
+}
+
+.action:hover {
+  @apply opacity-60;
+}
+
+.submit {
+  @apply flex justify-end;
+}

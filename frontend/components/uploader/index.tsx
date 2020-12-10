@@ -1,6 +1,7 @@
 import React, { useRef, useCallback, useState } from 'react'
 import Image from 'next/image'
-import { LoadingDots } from 'components/ui'
+import { HiOutlineX } from 'react-icons/hi'
+import { LoadingDots, Preview } from 'components/ui'
 import styles from './Uploader.module.css'
 
 interface Props {
@@ -70,12 +71,9 @@ export const Uploader: React.FC<Props> = ({ label, image, onChange }) => {
           + Add image
         </a>
       ) : (
-        <div className={styles.image}>
-          <Image width={40} height={50} src={image} />
-          <p className={styles.action} onClick={remove}>
-            Remove
-          </p>
-        </div>
+        <Preview action={<HiOutlineX onClick={remove} />}>
+          <Image layout="fill" src={image} />
+        </Preview>
       )}
       {error && <p className={styles.error}>{error}</p>}
     </div>

@@ -110,13 +110,10 @@ const menuItems: MenuItem[] = [
 export const AdminLayout: React.FC<Props> = ({ children, isLoggedIn }) => (
   <div className={styles.layout}>
     <aside className={styles.sidebar}>
-      <Image
-        className={styles.logo}
-        alt="logo"
-        src="/logo.svg"
-        width={80}
-        height={60}
-      />
+      <div className={styles.logo}>
+        <Image alt="logo" src="/logo.svg" width={80} height={60} />
+      </div>
+
       {isLoggedIn && <Menu items={menuItems} />}
     </aside>
     <section className={styles.content}>{children}</section>

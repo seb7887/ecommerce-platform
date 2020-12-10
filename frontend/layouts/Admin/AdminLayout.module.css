@@ -10,7 +10,7 @@
 }
 
 .logo {
-  @apply my-12;
+  @apply mt-12;
 }
 
 .content {

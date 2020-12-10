@@ -1,3 +1,3 @@
 export { default as ProductForm } from './ProductForm'
-export { default as Batch } from './Batch'
+export { default as Massive } from './Massive'
 export { ModalHeader } from './ModalHeader'

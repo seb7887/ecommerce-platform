@@ -31,8 +31,8 @@ const ProductFormView = dynamic(
   dynamicProps
 )
 
-const BatchView = dynamic(
-  () => import('components/products/Batch'),
+const MassiveView = dynamic(
+  () => import('components/products/Massive'),
   dynamicProps
 )
 
@@ -50,11 +50,11 @@ const AdminProductsPage: NextPage<Props> = ({ session }) => {
     setModalView,
   } = useUI()
   const [severity, setSeverity] = useState<'success' | 'error' | null>(null)
-  const single = modalView !== 'PRODUCT_BATCH'
+  const single = modalView !== 'PRODUCT_MASSIVE'
 
   const changeModalView = useCallback(
     (single: boolean) => {
-      setModalView(single ? 'PRODUCT_FORM' : 'PRODUCT_BATCH')
+      setModalView(single ? 'PRODUCT_FORM' : 'PRODUCT_MASSIVE')
     },
     [setModalView]
   )
@@ -108,7 +108,7 @@ const AdminProductsPage: NextPage<Props> = ({ session }) => {
           {modalView === 'PRODUCT_FORM' && (
             <ProductFormView onSubmit={create} />
           )}
-          {modalView === 'PRODUCT_BATCH' && <BatchView />}
+          {modalView === 'PRODUCT_MASSIVE' && <MassiveView />}
         </Modal>
       </AdminLayout>
     </>

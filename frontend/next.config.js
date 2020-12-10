@@ -2,6 +2,7 @@ require('dotenv').config()
 
 module.exports = {
   env: {
+    WEB_URL: process.env.WEB_URL,
     API_URL: process.env.API_URL,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
