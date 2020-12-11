@@ -9,9 +9,9 @@ interface Props {
 export const ModalHeader: React.FC<Props> = ({ single, onClick }) => {
   return (
     <div className={styles.root}>
-      <h1>Add Product{!single ? 's' : ''}</h1>
+      <h1>Publish Product{!single ? 's' : ''}</h1>
       <p>
-        or you can add{' '}
+        or you can publish{' '}
         <a className={styles.link} onClick={() => onClick(!single)}>
           {single ? 'multiple items' : 'a single item'}
         </a>

@@ -82,7 +82,7 @@ const AdminProductsPage: NextPage<Props> = ({ session }) => {
   const massivePublish = useCallback(
     async (v: Product[]) => {
       try {
-        await fetch(`${process.env.API_URL}/products/bulk`, {
+        const res = await fetch(`${process.env.API_URL}/products/bulk`, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${session}`,
@@ -90,10 +90,15 @@ const AdminProductsPage: NextPage<Props> = ({ session }) => {
           },
           body: JSON.stringify(v),
         })
+
+        if (!res.ok) {
+          throw new Error()
+        }
         setSeverity('success')
-        closeModal()
       } catch (err) {
         setSeverity('error')
+      } finally {
+        closeModal()
       }
     },
     [session, closeModal]
@@ -106,7 +111,7 @@ const AdminProductsPage: NextPage<Props> = ({ session }) => {
         <Header
           title="Products"
           actions={
-            <Tooltip content="Add Product">
+            <Tooltip content="Publish Product">
               <IconButton onClick={() => openModal()}>
                 <HiOutlinePlus />
               </IconButton>
@@ -115,11 +120,7 @@ const AdminProductsPage: NextPage<Props> = ({ session }) => {
         />
         <Snackbar
           open={!!severity}
-          message={
-            severity === 'error'
-              ? 'Error during creation. Try again.'
-              : 'Published!'
-          }
+          message={severity === 'error' ? 'Try again' : 'Published!'}
           severity={severity}
           onClose={() => setSeverity(null)}
         />

@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useRef } from 'react'
+import React, { useState, useCallback } from 'react'
 import xlsx from 'xlsx'
 import { downloadFile } from 'utils/download'
-import { Button } from 'components/ui'
+import { Button, FileUploader } from 'components/ui'
 import styles from './Massive.module.css'
 
 interface Props {
@@ -11,7 +11,6 @@ interface Props {
 const Massive: React.FC<Props> = ({ onSubmit }) => {
   const [loading, setLoading] = useState<boolean>(false)
   const [parsedData, setParsedData] = useState<Product[]>([])
-  const ref = useRef(null)
 
   const download = useCallback(async (e: React.SyntheticEvent) => {
     e.preventDefault()
@@ -20,8 +19,7 @@ const Massive: React.FC<Props> = ({ onSubmit }) => {
     downloadFile(blob, 'products.xlsx')
   }, [])
 
-  const upload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const { files } = e.target
+  const upload = useCallback((files: FileList) => {
     const reader = new FileReader()
     reader.onload = e => {
       const data = e.target.result
@@ -34,22 +32,16 @@ const Massive: React.FC<Props> = ({ onSubmit }) => {
     reader.readAsBinaryString(files[0])
   }, [])
 
-  const handleClick = useCallback((e: React.SyntheticEvent) => {
-    e.preventDefault()
-    ref.current.click()
+  const remove = useCallback((files: string[]) => {
+    setParsedData([])
   }, [])
 
   const publish = useCallback(
     async (e: React.SyntheticEvent) => {
       e.preventDefault()
       setLoading(true)
-      try {
-        await onSubmit(parsedData)
-      } catch (err) {
-        console.log(err)
-      } finally {
-        setLoading(false)
-      }
+      await onSubmit(parsedData)
+      setLoading(false)
     },
     [parsedData, onSubmit]
   )
@@ -68,19 +60,9 @@ const Massive: React.FC<Props> = ({ onSubmit }) => {
           to get the Excel spreadsheet.
         </li>
         <li>Complete it with the items you want to publish.</li>
-        <li>
-          <input
-            type="file"
-            ref={ref}
-            className={styles.hidden}
-            onChange={upload}
-          />
-          <a className={styles.action} onClick={handleClick}>
-            Upload
-          </a>{' '}
-          the edited file.
-        </li>
+        <li>Upload the edited file.</li>
       </ul>
+      <FileUploader onUpload={upload} onRemove={remove} />
       <div className={styles.submit}>
         <Button loading={loading} onClick={publish}>
           Publish

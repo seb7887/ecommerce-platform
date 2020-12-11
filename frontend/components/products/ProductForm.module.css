@@ -17,3 +17,7 @@
 .submit {
   @apply flex justify-end;
 }
+
+.upload {
+  @apply mt-4;
+}

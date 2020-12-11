@@ -1,8 +1,7 @@
 import React, { useCallback } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { Input, TextArea, Button, Switch } from 'components/ui'
-import { Uploader } from 'components/uploader'
+import { Input, TextArea, Button, Switch, FileUploader } from 'components/ui'
 import styles from './ProductForm.module.css'
 
 interface Props {
@@ -52,6 +51,28 @@ const ProductForm: React.FC<Props> = ({ initialState, onSubmit }) => {
       formik.setFieldValue('image', img)
     },
     [formik]
+  )
+
+  const uploadImage = useCallback(
+    async (files: FileList) => {
+      const data = new FormData()
+      data.append('file', files[0])
+      data.append('upload_preset', 'aym_dev')
+      const res = await fetch(`${process.env.CLOUDINARY_URL}`, {
+        method: 'POST',
+        body: data,
+      })
+      const file = await res.json()
+      changeImage(file.secure_url)
+    },
+    [changeImage]
+  )
+
+  const removeImage = useCallback(
+    (files: string[]) => {
+      changeImage(files[0])
+    },
+    [changeImage]
   )
 
   return (
@@ -127,11 +148,13 @@ const ProductForm: React.FC<Props> = ({ initialState, onSubmit }) => {
             />
           </div>
         </div>
-        <Uploader
-          label="Image"
-          image={formik.values.image}
-          onChange={changeImage}
-        />
+        <div className={styles.upload}>
+          <FileUploader
+            message="Upload Image"
+            onUpload={uploadImage}
+            onRemove={removeImage}
+          />
+        </div>
       </div>
       <div className={styles.submit}>
         <Button
@@ -140,7 +163,7 @@ const ProductForm: React.FC<Props> = ({ initialState, onSubmit }) => {
           disabled={!formik.isValid}
           testId="submit"
         >
-          {initialState ? 'Save' : 'Create'}
+          {initialState ? 'Save' : 'Publish'}
         </Button>
       </div>
     </form>

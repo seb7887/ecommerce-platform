@@ -15,7 +15,7 @@
 }
 
 .submit {
-  @apply flex justify-end;
+  @apply flex justify-end mt-4;
 }
 
 .hidden {
