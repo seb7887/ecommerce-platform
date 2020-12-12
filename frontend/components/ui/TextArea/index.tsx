@@ -6,9 +6,16 @@ interface Props {
   name: string
   value?: string
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void | Promise<void>
+  testId?: string
 }
 
-export const TextArea: React.FC<Props> = ({ label, name, value, onChange }) => {
+export const TextArea: React.FC<Props> = ({
+  label,
+  name,
+  value,
+  onChange,
+  testId,
+}) => {
   return (
     <div className={styles.root}>
       {label && <label htmlFor={name}>{label}</label>}
@@ -18,6 +25,7 @@ export const TextArea: React.FC<Props> = ({ label, name, value, onChange }) => {
         name={name}
         defaultValue={value}
         onChange={onChange}
+        data-testid={testId}
       />
     </div>
   )

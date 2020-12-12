@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactTooltip, { TooltipProps } from 'react-tooltip'
-import { withMounted } from 'hocs'
+import { withMounted } from '../../../hocs'
 
 interface Props extends TooltipProps {
   content: string

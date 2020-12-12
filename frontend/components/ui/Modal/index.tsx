@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { Portal } from '@reach/portal'
 import { HiOutlineX } from 'react-icons/hi'
-import { useClickOutside } from 'hooks'
+import { useClickOutside } from '../../../hooks'
 import { IconButton } from 'components/ui'
 import styles from './Modal.module.css'
 

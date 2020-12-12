@@ -111,7 +111,9 @@
     "moduleNameMapper": {
       "components/(.*)": "<rootDir>/components/$1",
       "^lib/(.*)$": "<rootDir>/lib/$1",
-      "^utils/(.*)$": "<rootDir>/utils/$1"
+      "^utils/(.*)$": "<rootDir>/utils/$1",
+      "^hocs/(.*)$": "<rootDir>/hocs/$1",
+      "^hooks/(.*)$": "<rootDir>/hooks/$1"
     },
     "transform": {
       "^.+\\.(ts|tsx)$": "babel-jest",

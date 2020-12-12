@@ -101,7 +101,7 @@ const ProductForm: React.FC<Props> = ({ initialState, onSubmit }) => {
           label="Description"
           value={formik.values.description}
           onChange={formik.handleChange}
-          data-testid="description"
+          testId="description"
         />
         <div className={styles.row}>
           <Input
