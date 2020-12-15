@@ -1,4 +1,8 @@
 .root {
+  @apply flex flex-col;
+}
+
+.table {
   @apply table-auto;
 }
 

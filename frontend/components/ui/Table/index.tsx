@@ -1,5 +1,12 @@
-import React, { useCallback, ThHTMLAttributes, useMemo, useState } from 'react'
-import { Column, ColumnInterfaceBasedOnValue, useTable } from 'react-table'
+import React, { useCallback, ThHTMLAttributes, useMemo, useEffect } from 'react'
+import {
+  Column,
+  TableOptions,
+  useTable,
+  usePagination,
+  useSortBy,
+  SortingRule,
+} from 'react-table'
 import {
   HiArrowDown,
   HiArrowUp,
@@ -17,16 +24,15 @@ export interface SortBy {
   order: SortType | null
 }
 
-export interface Props<T extends Record<string, any>>
-  extends ColumnInterfaceBasedOnValue<T> {
+export interface Props<T extends Record<string, any>> extends TableOptions<T> {
   columns: TableColumn<T>[]
   data: T[]
-  pageSize?: number
+  rowsPerPage?: number
   pageNumber?: number
   total?: number
   onRowClick?: (item: T, row: number) => void | Promise<void>
   onChangePage?: (p: number) => void | Promise<void>
-  onSort?: (filter: string, order: SortType) => void | Promise<void>
+  onSort?: (sortBy: SortingRule<T>[]) => void | Promise<void>
 }
 
 export const Table = <T extends Record<string, any>>({
@@ -35,21 +41,43 @@ export const Table = <T extends Record<string, any>>({
   onRowClick,
   onChangePage,
   onSort,
-  pageSize = 6,
+  rowsPerPage = 6,
   pageNumber = 1,
   total = data.length,
+  disableSortBy,
 }: Props<T>) => {
-  const [sortBy, setSortBy] = useState<SortBy>({
-    column: '',
-    order: null,
-  })
   const {
     getTableBodyProps,
     getTableProps,
     headerGroups,
     prepareRow,
     rows,
-  } = useTable<T>({ columns, data })
+    pageCount,
+    state: { pageIndex, sortBy },
+    canPreviousPage,
+    canNextPage,
+  } = useTable<T>(
+    {
+      columns,
+      data,
+      manualSortBy: true,
+      disableSortBy,
+      manualPagination: true,
+      pageCount: Math.ceil(Math.abs(total / rowsPerPage - 1)) + 1,
+      useControlledState: state => {
+        return useMemo(
+          () => ({
+            ...state,
+            pageIndex: pageNumber,
+            pageSize: rowsPerPage,
+          }),
+          [state, pageNumber, rowsPerPage]
+        )
+      },
+    },
+    useSortBy,
+    usePagination
+  )
 
   const handleRowClick = useCallback(
     (value: T, index: number) => {
@@ -69,40 +97,27 @@ export const Table = <T extends Record<string, any>>({
     [onChangePage]
   )
 
-  const changeSortOrder = useCallback((): SortType | null => {
-    switch (sortBy.order) {
-      case null:
-        return 'desc'
-      case 'desc':
-        return 'asc'
-      default:
-        return null
+  useEffect(() => {
+    if (onSort) {
+      onSort(sortBy)
     }
-  }, [sortBy.order])
-
-  const handleSort = useCallback(
-    (column: string) => {
-      if (onSort) {
-        const newOrder = changeSortOrder()
-        setSortBy({ column, order: newOrder })
-        onSort(column, newOrder)
-      }
-    },
-    [onSort, changeSortOrder]
-  )
+  }, [sortBy, onSort])
 
   return (
-    <>
-      <table {...getTableProps()} className={styles.root}>
+    <div className={styles.root}>
+      <table {...getTableProps()} className={styles.table}>
         <Thead>
           {headerGroups.map(headerGroup => (
             <Tr {...headerGroup.getHeaderGroupProps()} className={styles.tr}>
               {headerGroup.headers.map(column => (
-                <Th {...column.getHeaderProps()} className={styles.th}>
-                  <div onClick={() => handleSort(column.id)}>
+                <Th
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                  className={styles.th}
+                >
+                  <div>
                     {column.render('Header')}
-                    {sortBy.order && sortBy.column === column.id ? (
-                      sortBy.order === 'desc' ? (
+                    {column.isSorted ? (
+                      column.isSortedDesc ? (
                         <HiArrowDown />
                       ) : (
                         <HiArrowUp />
@@ -138,12 +153,13 @@ export const Table = <T extends Record<string, any>>({
         </Tbody>
       </table>
       <Pagination
-        total={total}
-        pageNumber={pageNumber}
-        pageSize={pageSize}
+        pageCount={pageCount}
+        pageIndex={pageIndex}
+        canPreviousPage={canPreviousPage}
+        canNextPage={canNextPage}
         onChangePage={handleChangePage}
       />
-    </>
+    </div>
   )
 }
 
@@ -183,45 +199,37 @@ const Td: React.FC<React.ThHTMLAttributes<HTMLTableHeaderCellElement>> = ({
 }
 
 interface PaginationProps {
-  total: number
-  pageSize: number
-  pageNumber: number
+  pageCount: number
+  pageIndex: number
+  canPreviousPage: boolean
+  canNextPage: boolean
   onChangePage?: (p: number, execute: boolean) => void
 }
 
 const Pagination: React.FC<PaginationProps> = ({
-  total,
-  pageSize,
-  pageNumber,
+  pageCount,
+  pageIndex,
+  canPreviousPage,
+  canNextPage,
   onChangePage,
 }) => {
-  const pageLimit = useMemo(() => {
-    return Math.ceil(Math.abs(total / pageSize - 1))
-  }, [total, pageSize])
-  const canPrev = useMemo(() => {
-    return pageNumber !== 1
-  }, [pageNumber])
-  const canNext = useMemo(() => {
-    return pageLimit > 1 && pageNumber !== pageLimit
-  }, [pageLimit, pageNumber])
-
   return (
     <>
-      {pageLimit > 0 && (
+      {pageCount > 0 && (
         <div className={styles.pagination}>
           <span>
-            Page {pageNumber} of {pageLimit}
+            Page {pageIndex + 1} of {pageCount}
           </span>
           <div className={styles.actions}>
             <IconButton
-              onClick={() => onChangePage(pageNumber - 1, canPrev)}
-              disabled={!canPrev}
+              onClick={() => onChangePage(pageIndex - 1, canPreviousPage)}
+              disabled={!canPreviousPage}
             >
               <HiChevronLeft />
             </IconButton>
             <IconButton
-              onClick={() => onChangePage(pageNumber + 1, canNext)}
-              disabled={!canNext}
+              onClick={() => onChangePage(pageIndex + 1, canNextPage)}
+              disabled={!canNextPage}
             >
               <HiChevronRight />
             </IconButton>
