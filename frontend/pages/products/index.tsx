@@ -112,7 +112,7 @@ const AdminProductsPage: NextPage<Props> = ({ session }) => {
           title="Products"
           actions={
             <Tooltip content="Publish Product">
-              <IconButton onClick={() => openModal()}>
+              <IconButton onClick={() => openModal()} testId="action">
                 <HiOutlinePlus />
               </IconButton>
             </Tooltip>
