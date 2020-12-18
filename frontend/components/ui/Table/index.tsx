@@ -30,6 +30,7 @@ export interface Props<T extends Record<string, any>> extends TableOptions<T> {
   rowsPerPage?: number
   pageNumber?: number
   total?: number
+  initialSortBy?: SortingRule<T>[]
   onRowClick?: (item: T, row: number) => void | Promise<void>
   onChangePage?: (p: number) => void | Promise<void>
   onSort?: (sortBy: SortingRule<T>[]) => void | Promise<void>
@@ -45,7 +46,9 @@ export const Table = <T extends Record<string, any>>({
   pageNumber = 1,
   total = data.length,
   disableSortBy,
+  initialSortBy = [],
 }: Props<T>) => {
+  const memoizedSortBy = useMemo(() => initialSortBy, [initialSortBy])
   const {
     getTableBodyProps,
     getTableProps,
@@ -64,6 +67,9 @@ export const Table = <T extends Record<string, any>>({
       disableSortBy,
       manualPagination: true,
       pageCount: Math.ceil(Math.abs(total / rowsPerPage - 1)) + 1,
+      initialState: {
+        sortBy: memoizedSortBy,
+      },
       useControlledState: state => {
         return useMemo(
           () => ({

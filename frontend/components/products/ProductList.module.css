@@ -1,0 +1,15 @@
+.root {
+  @apply px-8 pt-6;
+}
+
+.search {
+  @apply flex justify-between items-center mb-20;
+}
+
+.total {
+  @apply font-bold;
+}
+
+.empty {
+  @apply h-4/6 flex justify-center items-center;
+}

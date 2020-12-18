@@ -1,11 +1,15 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { NextPage, NextPageContext } from 'next'
+import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
+import { SortingRule } from 'react-table'
 import { HiOutlinePlus } from 'react-icons/hi'
 import { getSessionOrRedirect } from 'lib/auth'
+import { fetcher } from 'lib/api'
+import { formatQueryParams, formatSortBy, formatSortStr } from 'utils/format'
 import { Header } from 'components/header'
 import { PageTitle } from 'components/PageTitle'
-import { ModalHeader } from 'components/products'
+import { ModalHeader, ProductList } from 'components/products'
 import {
   IconButton,
   Tooltip,
@@ -37,10 +41,20 @@ const MassiveView = dynamic(
 )
 
 interface Props {
-  session: any
+  session: string
+  products: Product[]
+  count: number
+  initialSortBy?: SortingRule<Product>[]
+  page?: string
 }
 
-const AdminProductsPage: NextPage<Props> = ({ session }) => {
+const AdminProductsPage: NextPage<Props> = ({
+  session,
+  products: initialData,
+  count,
+  initialSortBy = [],
+  page: initialPage,
+}) => {
   const isLoggedIn = session != null
   const {
     openModal,
@@ -50,6 +64,15 @@ const AdminProductsPage: NextPage<Props> = ({ session }) => {
     setModalView,
   } = useUI()
   const [severity, setSeverity] = useState<'success' | 'error' | null>(null)
+  const [products, setProducts] = useState<Product[]>(initialData)
+  const [sortBy, setSortBy] = useState<string>(
+    initialSortBy.length > 0 ? formatSortStr(initialSortBy[0]) : null
+  )
+  const [page, setPage] = useState<number>(
+    initialPage ? parseInt(initialPage) : 0
+  )
+  const [queryParams, setQueryParams] = useState<string>('')
+  const { push } = useRouter()
   const single = modalView !== 'PRODUCT_MASSIVE'
 
   const changeModalView = useCallback(
@@ -104,6 +127,38 @@ const AdminProductsPage: NextPage<Props> = ({ session }) => {
     [session, closeModal]
   )
 
+  useEffect(() => {
+    ;(async () => {
+      const result = await fetcher<Product[]>(
+        `products?${queryParams}`,
+        session
+      )
+
+      setProducts(result)
+    })()
+  }, [queryParams, session])
+
+  useEffect(() => {
+    setQueryParams(formatQueryParams(page, sortBy))
+  }, [page, sortBy])
+
+  const handleChangePage = useCallback((p: number) => {
+    setPage(p)
+  }, [])
+
+  const handleRowClick = useCallback(
+    (item: Product, row: number) => {
+      push(`/products/${item.id}`)
+    },
+    [push]
+  )
+
+  const handleSort = useCallback((sortBy: SortingRule<Product>[]) => {
+    const sortByStr =
+      sortBy.length > 0 ? formatSortStr<Product>(sortBy[0]) : null
+    setSortBy(sortByStr)
+  }, [])
+
   return (
     <>
       <PageTitle title="Products" />
@@ -118,6 +173,17 @@ const AdminProductsPage: NextPage<Props> = ({ session }) => {
             </Tooltip>
           }
         />
+
+        <ProductList
+          products={products}
+          count={count}
+          initialSortBy={initialSortBy}
+          page={page}
+          onChangePage={handleChangePage}
+          onRowClick={handleRowClick}
+          onSort={handleSort}
+        />
+
         <Snackbar
           open={!!severity}
           message={severity === 'error' ? 'Try again' : 'Published!'}
@@ -140,10 +206,20 @@ const AdminProductsPage: NextPage<Props> = ({ session }) => {
 
 export const getServerSideProps = async (ctx: NextPageContext) => {
   const session = await getSessionOrRedirect(ctx, true)
+  const { page, sort } = ctx.query
+  const queryParams = formatQueryParams(page, sort)
+  const initialSortBy = sort ? formatSortBy(sort) : null
+
+  const products = await fetcher<Product[]>(`products?${queryParams}`, session)
+  const count = await fetcher('products/count', session)
 
   return {
     props: {
       session,
+      products,
+      count,
+      ...(initialSortBy && { initialSortBy }),
+      ...(page && { page }),
     },
   }
 }
