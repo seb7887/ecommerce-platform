@@ -1,6 +1,6 @@
 import { SortingRule } from 'react-table'
 
-interface Filter {
+export interface Filter {
   field: string
   value: string
 }
@@ -8,12 +8,12 @@ interface Filter {
 export const formatQueryParams = (
   page: any,
   sort: any,
-  limit = 6,
-  filter?: Filter
+  filter?: Filter,
+  limit = 6
 ) => {
   const pageStr = page ? `_start=${parseInt(page) * limit}` : ''
   const sortStr = sort ? `_sort=${sort}` : ''
-  const filterStr = filter ? `${filter.field}_eq=${filter.value}` : ''
+  const filterStr = filter ? `${filter.field}_contains=${filter.value}` : ''
   return `_limit=${limit}${pageStr !== '' ? `&${pageStr}` : ''}${
     sortStr !== '' ? `&${sortStr}` : ''
   }${filterStr !== '' ? `&${filterStr}` : ''}`

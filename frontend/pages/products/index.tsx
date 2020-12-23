@@ -71,6 +71,7 @@ const AdminProductsPage: NextPage<Props> = ({
   const [page, setPage] = useState<number>(
     initialPage ? parseInt(initialPage) : 0
   )
+  const [filterValue, setFilterValue] = useState<string>('')
   const [queryParams, setQueryParams] = useState<string>('')
   const { push } = useRouter()
   const single = modalView !== 'PRODUCT_MASSIVE'
@@ -139,15 +140,22 @@ const AdminProductsPage: NextPage<Props> = ({
   }, [queryParams, session])
 
   useEffect(() => {
-    setQueryParams(formatQueryParams(page, sortBy))
-  }, [page, sortBy])
+    let filter = null
+    if (filterValue !== '') {
+      filter = {
+        field: 'name',
+        value: filterValue,
+      }
+    }
+    setQueryParams(formatQueryParams(page, sortBy, filter))
+  }, [page, sortBy, filterValue])
 
   const handleChangePage = useCallback((p: number) => {
     setPage(p)
   }, [])
 
   const handleRowClick = useCallback(
-    (item: Product, row: number) => {
+    (item: Product, _: number) => {
       push(`/products/${item.id}`)
     },
     [push]
@@ -157,6 +165,10 @@ const AdminProductsPage: NextPage<Props> = ({
     const sortByStr =
       sortBy.length > 0 ? formatSortStr<Product>(sortBy[0]) : null
     setSortBy(sortByStr)
+  }, [])
+
+  const handleSearch = useCallback((searchTerm: string) => {
+    setFilterValue(searchTerm)
   }, [])
 
   return (
@@ -182,6 +194,7 @@ const AdminProductsPage: NextPage<Props> = ({
           onChangePage={handleChangePage}
           onRowClick={handleRowClick}
           onSort={handleSort}
+          onSearch={handleSearch}
         />
 
         <Snackbar

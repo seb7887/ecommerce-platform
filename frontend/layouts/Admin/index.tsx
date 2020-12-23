@@ -44,12 +44,11 @@ const Menu: React.FC<MenuProps> = ({ items }) => {
   return (
     <ul className={styles.menu}>
       {items.map(item => {
+        const isActive = item.path
+          ? item.path.includes(router.pathname.split('/')[1])
+          : false
         const makeItem = (item: MenuItem) => (
-          <li
-            className={`${styles.item} ${
-              item.path === router.pathname ? styles.active : ''
-            }`}
-          >
+          <li className={`${styles.item} ${isActive ? styles.active : ''}`}>
             {item.icon} {item.name}
           </li>
         )

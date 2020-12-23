@@ -1,0 +1,33 @@
+.root {
+  @apply flex  justify-between px-8 py-16;
+}
+
+.info {
+  @apply flex flex-col;
+  width: 500px;
+  height: 400px;
+}
+
+.author {
+  @apply italic text-center text-sm mb-2;
+}
+
+.money {
+  @apply flex justify-between mt-4 w-3/4;
+}
+
+.label {
+  @apply text-xs font-bold;
+}
+
+.number {
+  @apply text-3xl;
+}
+
+.stock {
+  @apply mt-4 text-lg;
+}
+
+.sold {
+  @apply text-sm;
+}

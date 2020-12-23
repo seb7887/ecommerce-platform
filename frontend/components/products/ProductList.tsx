@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useCallback } from 'react'
 import { SortingRule } from 'react-table'
 import { HiOutlineSearch } from 'react-icons/hi'
 import debounce from 'lodash.debounce'
@@ -13,6 +13,7 @@ interface Props {
   onRowClick: (item: Product, row: number) => void | Promise<void>
   onChangePage: (p: number) => void | Promise<void>
   onSort: (sortBy: SortingRule<Product>[]) => void | Promise<void>
+  onSearch: (searchTerm: string) => void | Promise<void>
 }
 
 export const ProductList: React.FC<Props> = ({
@@ -23,6 +24,7 @@ export const ProductList: React.FC<Props> = ({
   onChangePage,
   onRowClick,
   onSort,
+  onSearch,
 }) => {
   const columns: TableColumn<Product>[] = useMemo(
     () => [
@@ -59,9 +61,14 @@ export const ProductList: React.FC<Props> = ({
 
   const tableData = useMemo(() => products, [products])
 
-  const handleChange = debounce(e => {
-    console.log(e.target.value)
+  const debouncedSearch = debounce((v: string) => {
+    onSearch(v)
   }, 350)
+
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
+    debouncedSearch(value)
+  }, [])
 
   return (
     <>
