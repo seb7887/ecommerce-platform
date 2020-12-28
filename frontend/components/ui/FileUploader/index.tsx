@@ -11,6 +11,7 @@ import styles from './FileUploader.module.css'
 interface Props {
   message?: string
   limit?: number
+  files?: string[]
   onUpload?: (file: FileList) => void | Promise<void>
   onRemove?: (files: string[]) => void | Promise<void>
 }
@@ -18,13 +19,14 @@ interface Props {
 export const FileUploader: React.FC<Props> = ({
   message = 'Upload file',
   limit = 1,
+  files = [],
   onUpload,
   onRemove,
 }) => {
   const ref = useRef(null)
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string>(null)
-  const [filesToUpload, setFilesToUpload] = useState<string[]>([])
+  const [filesToUpload, setFilesToUpload] = useState<string[]>(files)
 
   const upload = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {

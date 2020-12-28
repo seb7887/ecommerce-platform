@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import { Empty } from 'components/ui'
 import styles from './AdminProduct.module.css'
 
 interface Props {
@@ -9,10 +10,18 @@ interface Props {
 export const AdminProduct: React.FC<Props> = ({ product }) => {
   return (
     <div className={styles.root}>
-      <Image src={product.image} width={300} height={400} />
+      {product.image ? (
+        <Image src={product.image} width={300} height={400} />
+      ) : (
+        <div className={styles.empty}>
+          <Empty variant="no-image" size="large">
+            No Product Pic
+          </Empty>
+        </div>
+      )}
       <div className={styles.info}>
         <p className={styles.author}>by {product.author}</p>
-        <p>{product.description}</p>
+        <p className={styles.description}>{product.description}</p>
         <div className="flex justify-center">
           <div className={styles.money}>
             <div className="flex flex-col items-center">

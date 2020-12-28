@@ -44,9 +44,12 @@ const Menu: React.FC<MenuProps> = ({ items }) => {
   return (
     <ul className={styles.menu}>
       {items.map(item => {
-        const isActive = item.path
-          ? item.path.includes(router.pathname.split('/')[1])
-          : false
+        let isActive = false
+        if (item.path) {
+          const pathname = router.pathname.split('/')[1]
+          isActive =
+            pathname === '' ? item.path === '/' : item.path.includes(pathname)
+        }
         const makeItem = (item: MenuItem) => (
           <li className={`${styles.item} ${isActive ? styles.active : ''}`}>
             {item.icon} {item.name}
@@ -71,7 +74,7 @@ const Menu: React.FC<MenuProps> = ({ items }) => {
 
 const menuItems: MenuItem[] = [
   {
-    name: 'Overview',
+    name: 'Insights',
     path: '/',
     icon: <HiOutlineChartPie />,
   },

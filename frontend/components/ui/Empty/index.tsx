@@ -3,9 +3,10 @@ import clsx from 'clsx'
 import { NotFound } from './NotFound'
 import { NoData } from './NoData'
 import { NoDataChart } from './NoDataChart'
+import { NoImage } from './NoImage'
 import styles from './Empty.module.css'
 
-type IllustrationType = '404' | 'no-data' | 'no-data-chart'
+type IllustrationType = '404' | 'no-data' | 'no-data-chart' | 'no-image'
 
 interface Props {
   size?: Size
@@ -16,6 +17,7 @@ const ILLUSTRATIONS: Record<IllustrationType, JSX.Element> = {
   '404': <NotFound />,
   'no-data': <NoData />,
   'no-data-chart': <NoDataChart />,
+  'no-image': <NoImage />,
 }
 
 export const Empty: React.FC<Props> = ({

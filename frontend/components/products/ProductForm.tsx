@@ -150,6 +150,7 @@ const ProductForm: React.FC<Props> = ({ initialState, onSubmit }) => {
         </div>
         <div className={styles.upload}>
           <FileUploader
+            files={formik.values.image !== '' ? [formik.values.image] : []}
             message="Upload Image"
             onUpload={uploadImage}
             onRemove={removeImage}

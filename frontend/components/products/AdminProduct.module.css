@@ -2,6 +2,11 @@
   @apply flex  justify-between px-8 py-16;
 }
 
+.empty {
+  height: 300px;
+  width: 400px;
+}
+
 .info {
   @apply flex flex-col;
   width: 500px;
@@ -10,6 +15,10 @@
 
 .author {
   @apply italic text-center text-sm mb-2;
+}
+
+.description {
+  min-height: 210px;
 }
 
 .money {

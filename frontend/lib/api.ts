@@ -1,6 +1,15 @@
-export const fetcher = async <T>(path: string, token: string) => {
+import { RequestOptions } from 'https'
+
+export type HTTPRequest = RequestOptions & { body: string }
+
+export const fetcher = async <T>(
+  path: string,
+  token: string,
+  options: Record<string, string> = {}
+) => {
   const res = await fetch(`${process.env.API_URL}/${path}`, {
-    method: 'GET',
+    ...options,
+    method: options.method || 'GET',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,

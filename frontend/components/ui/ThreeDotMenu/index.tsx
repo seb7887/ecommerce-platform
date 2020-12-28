@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import { HiOutlineDotsVertical } from 'react-icons/hi/'
+import React, { useState, useRef } from 'react'
+import { HiOutlineDotsVertical } from 'react-icons/hi'
+import { useClickOutside } from '../../../hooks/useClickOutside'
 import { IconButton } from '../IconButton'
 import styles from './ThreeDotMenu.module.css'
 
@@ -17,6 +18,7 @@ interface Props {
 
 export const ThreeDotMenu: React.FC<Props> = ({ size = 'medium', items }) => {
   const [openMenu, setOpenMenu] = useState<boolean>(false)
+  const ref = useRef(null)
 
   const toggle = () => {
     setOpenMenu(!openMenu)
@@ -27,6 +29,8 @@ export const ThreeDotMenu: React.FC<Props> = ({ size = 'medium', items }) => {
     setOpenMenu(false)
   }
 
+  useClickOutside(ref, () => setOpenMenu(false))
+
   return (
     <div className={styles.root}>
       <IconButton size={size} onClick={toggle}>
@@ -34,7 +38,7 @@ export const ThreeDotMenu: React.FC<Props> = ({ size = 'medium', items }) => {
       </IconButton>
 
       {openMenu && (
-        <ul className={styles.menu}>
+        <ul className={styles.menu} ref={ref}>
           {items.map((item, index) => (
             <li
               key={`item-${index}`}
