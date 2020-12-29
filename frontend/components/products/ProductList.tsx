@@ -82,7 +82,9 @@ export const ProductList: React.FC<Props> = ({
       ) : (
         <div className={styles.root}>
           <div className={styles.search}>
-            <p className={styles.total}>Showing 6 of {count} products</p>
+            <p className={styles.total} data-testid="count">
+              Showing 6 of {count} products
+            </p>
             <Input
               name="search"
               prefix={<HiOutlineSearch />}

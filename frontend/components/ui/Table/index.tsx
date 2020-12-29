@@ -147,6 +147,7 @@ export const Table = <T extends Record<string, any>>({
                 key={rowProps.key}
                 onClick={() => handleRowClick(row.original, i)}
                 className={styles.row}
+                data-testid="row"
               >
                 {row.cells.map(cell => (
                   <Td {...cell.getCellProps()} className={styles.td}>

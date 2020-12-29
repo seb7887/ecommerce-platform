@@ -33,7 +33,7 @@ export const ThreeDotMenu: React.FC<Props> = ({ size = 'medium', items }) => {
 
   return (
     <div className={styles.root}>
-      <IconButton size={size} onClick={toggle}>
+      <IconButton size={size} onClick={toggle} testId="three-dot-button">
         <HiOutlineDotsVertical />
       </IconButton>
 
@@ -46,6 +46,7 @@ export const ThreeDotMenu: React.FC<Props> = ({ size = 'medium', items }) => {
                 item.disabled ? styles.disabled : ''
               }`}
               onClick={() => handleItemClick(index)}
+              data-testid={`item-${index}`}
             >
               {item.icon} <span>{item.label}</span>
             </li>

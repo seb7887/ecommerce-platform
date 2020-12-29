@@ -127,7 +127,7 @@ const AdminProductPage: NextPage<Props> = ({ session, product }) => {
           {modalView === 'CONFIRM' && (
             <Confirm
               title="Are you sure?"
-              message="By perform this action you will permanently delete this product"
+              message="By performing this action you will permanently delete this product"
               onCancel={() => closeModal()}
               onConfirm={deleteProduct}
             />
