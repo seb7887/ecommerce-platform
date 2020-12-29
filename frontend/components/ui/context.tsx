@@ -13,7 +13,7 @@ const initialState: State = {
 }
 
 type AUTH_VIEWS = 'LOGIN_VIEW' | 'SIGNUP_VIEW'
-type MODAL_VIEWS = 'PRODUCT_FORM' | 'PRODUCT_MASSIVE'
+type MODAL_VIEWS = 'PRODUCT_FORM' | 'PRODUCT_MASSIVE' | 'CONFIRM'
 
 type Action =
   | {

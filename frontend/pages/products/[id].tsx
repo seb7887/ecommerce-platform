@@ -12,6 +12,7 @@ import {
   ThreeDotMenuItem,
   Modal,
   Snackbar,
+  Confirm,
   useUI,
 } from 'components/ui'
 import { AdminLayout } from 'layouts'
@@ -25,7 +26,13 @@ const AdminProductPage: NextPage<Props> = ({ session, product }) => {
   const isLoggedIn = session != null
   const [currentProduct, setCurrentProduct] = useState<Product>(product)
   const [severity, setSeverity] = useState<'success' | 'error' | null>(null)
-  const { openModal, displayModal, closeModal } = useUI()
+  const {
+    openModal,
+    displayModal,
+    closeModal,
+    modalView,
+    setModalView,
+  } = useUI()
   const { push } = useRouter()
 
   const editProduct = useCallback(
@@ -55,11 +62,18 @@ const AdminProductPage: NextPage<Props> = ({ session, product }) => {
         method: 'DELETE',
       })
       setSeverity('success')
+      closeModal()
+      setModalView('PRODUCT_FORM')
       push('/products')
     } catch (err) {
       setSeverity('error')
     }
-  }, [currentProduct, session, push])
+  }, [currentProduct, session, closeModal, push, setModalView])
+
+  const openConfirm = useCallback(() => {
+    setModalView('CONFIRM')
+    openModal()
+  }, [openModal, setModalView])
 
   const menuItems: ThreeDotMenuItem[] = useMemo(
     () => [
@@ -70,11 +84,11 @@ const AdminProductPage: NextPage<Props> = ({ session, product }) => {
       },
       {
         label: 'Delete',
-        action: deleteProduct,
+        action: openConfirm,
         icon: <HiOutlineTrash />,
       },
     ],
-    [openModal, deleteProduct]
+    [openModal, openConfirm]
   )
 
   const initialValues: Product = useMemo(
@@ -107,7 +121,17 @@ const AdminProductPage: NextPage<Props> = ({ session, product }) => {
           onClose={() => setSeverity(null)}
         />
         <Modal open={displayModal} onClose={() => closeModal()}>
-          <ProductForm onSubmit={editProduct} initialState={initialValues} />
+          {modalView === 'PRODUCT_FORM' && (
+            <ProductForm onSubmit={editProduct} initialState={initialValues} />
+          )}
+          {modalView === 'CONFIRM' && (
+            <Confirm
+              title="Are you sure?"
+              message="By perform this action you will permanently delete this product"
+              onCancel={() => closeModal()}
+              onConfirm={deleteProduct}
+            />
+          )}
         </Modal>
       </AdminLayout>
     </>

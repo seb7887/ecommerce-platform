@@ -48,6 +48,11 @@ interface Props {
   page?: string
 }
 
+interface State {
+  products: Product[]
+  count: number
+}
+
 const AdminProductsPage: NextPage<Props> = ({
   session,
   products: initialData,
@@ -64,7 +69,10 @@ const AdminProductsPage: NextPage<Props> = ({
     setModalView,
   } = useUI()
   const [severity, setSeverity] = useState<'success' | 'error' | null>(null)
-  const [products, setProducts] = useState<Product[]>(initialData)
+  const [state, setState] = useState<State>({
+    products: initialData,
+    count,
+  })
   const [sortBy, setSortBy] = useState<string>(
     initialSortBy.length > 0 ? formatSortStr(initialSortBy[0]) : null
   )
@@ -83,24 +91,34 @@ const AdminProductsPage: NextPage<Props> = ({
     [setModalView]
   )
 
+  const refetch = useCallback(async () => {
+    const count = await fetcher<number>('products/count', session)
+    const products = await fetcher<Product[]>(
+      `products?${queryParams}`,
+      session
+    )
+
+    setState({
+      products,
+      count,
+    })
+  }, [session, queryParams])
+
   const create = useCallback(
     async (v: Product) => {
       try {
-        await fetch(`${process.env.API_URL}/products`, {
+        await fetcher<Product>('products', session, {
           method: 'POST',
-          headers: {
-            Authorization: `Bearer ${session}`,
-            'Content-Type': 'application/json',
-          },
           body: JSON.stringify(v),
         })
         setSeverity('success')
         closeModal()
+        await refetch()
       } catch (err) {
         setSeverity('error')
       }
     },
-    [session, closeModal]
+    [session, closeModal, refetch]
   )
 
   const massivePublish = useCallback(
@@ -119,23 +137,27 @@ const AdminProductsPage: NextPage<Props> = ({
           throw new Error()
         }
         setSeverity('success')
+        await refetch()
       } catch (err) {
         setSeverity('error')
       } finally {
         closeModal()
       }
     },
-    [session, closeModal]
+    [session, closeModal, refetch]
   )
 
   useEffect(() => {
     ;(async () => {
-      const result = await fetcher<Product[]>(
+      const products = await fetcher<Product[]>(
         `products?${queryParams}`,
         session
       )
 
-      setProducts(result)
+      setState(prev => ({
+        ...prev,
+        products,
+      }))
     })()
   }, [queryParams, session])
 
@@ -187,8 +209,8 @@ const AdminProductsPage: NextPage<Props> = ({
         />
 
         <ProductList
-          products={products}
-          count={count}
+          products={state.products}
+          count={state.count}
           initialSortBy={initialSortBy}
           page={page}
           onChangePage={handleChangePage}
