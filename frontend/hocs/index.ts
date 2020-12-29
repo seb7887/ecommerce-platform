@@ -1,0 +1,1 @@
+export { withMounted } from './withMounted'

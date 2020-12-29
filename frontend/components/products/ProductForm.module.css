@@ -1,0 +1,23 @@
+.root {
+  min-width: 600px;
+}
+
+.fields {
+  @apply mb-8;
+}
+
+.field {
+  @apply flex flex-col;
+}
+
+.row {
+  @apply flex justify-between items-center;
+}
+
+.submit {
+  @apply flex justify-end;
+}
+
+.upload {
+  @apply mt-4;
+}

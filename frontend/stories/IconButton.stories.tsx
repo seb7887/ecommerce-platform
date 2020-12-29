@@ -22,12 +22,21 @@ stories.addDecorator(withKnobs)
 
 stories.add('Example', () => {
   return (
-    <IconButton
-      color={select('Color', options, options.Default) as Color | 'default'}
-      size={select('Size', sizeOptions, sizeOptions.Medium) as Size}
-      disabled={boolean('Disabled', false)}
+    <div
+      style={{
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
     >
-      <HiKey />
-    </IconButton>
+      <IconButton
+        color={select('Color', options, options.Default) as Color | 'default'}
+        size={select('Size', sizeOptions, sizeOptions.Medium) as Size}
+        disabled={boolean('Disabled', false)}
+      >
+        <HiKey />
+      </IconButton>
+    </div>
   )
 })

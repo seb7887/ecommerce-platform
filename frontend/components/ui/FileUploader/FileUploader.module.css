@@ -1,0 +1,31 @@
+.root {
+  @apply flex flex-col items-center;
+}
+
+.hidden {
+  display: none;
+}
+
+.error {
+  @apply flex items-center mt-1 text-red-600 font-bold;
+}
+
+.files {
+  @apply flex flex-col;
+}
+
+.file {
+  @apply flex items-center justify-between p-2 border rounded-md;
+}
+
+.container {
+  @apply flex items-center;
+}
+
+.filename {
+  @apply ml-2;
+}
+
+.remove {
+  @apply cursor-pointer;
+}

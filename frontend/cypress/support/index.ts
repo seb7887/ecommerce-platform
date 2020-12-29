@@ -6,3 +6,12 @@ export const generateUser = () => ({
   email: faker.internet.email(),
   password: faker.internet.password(),
 })
+
+export const generateProduct = () => ({
+  name: faker.commerce.productName(),
+  author: faker.internet.userName(),
+  description: faker.commerce.productDescription(),
+  price: faker.commerce.price(),
+  cost: faker.commerce.price(),
+  stock: faker.random.number(),
+})

@@ -1,0 +1,19 @@
+.root {
+  @apply flex flex-col items-center mb-4 border-b pb-2;
+
+  h1 {
+    @apply font-bold text-xl;
+  }
+
+  p {
+    @apply text-sm;
+  }
+}
+
+.link {
+  @apply font-bold cursor-pointer text-indigo-900 transition-all duration-300 ease-linear;
+}
+
+.link:hover {
+  @apply text-indigo-700 underline;
+}

@@ -12,6 +12,8 @@ module.exports = {
       },
     }
 
+    newConfig.resolve.modules = [path.resolve(__dirname, '..'), 'node_modules']
+
     newConfig.module.rules.push({
       test: /\.(ts|tsx)$/,
       include: [

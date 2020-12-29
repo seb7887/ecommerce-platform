@@ -16,3 +16,30 @@
 .content {
   @apply flex-1;
 }
+
+.menu {
+  @apply mt-24 flex flex-col text-white text-lg font-bold w-full;
+}
+
+.item {
+  @apply flex items-center pl-20 text-left cursor-pointer transition-all duration-300 w-full pr-4;
+  height: 64px;
+
+  svg {
+    @apply mr-2;
+  }
+}
+
+.item:hover {
+  @apply opacity-70;
+}
+
+.active {
+  @apply bg-white text-indigo-900;
+  border-top-left-radius: 32px;
+  border-bottom-left-radius: 32px;
+}
+
+.active:hover {
+  @apply opacity-100;
+}

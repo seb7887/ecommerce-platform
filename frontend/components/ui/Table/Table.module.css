@@ -1,0 +1,43 @@
+.root {
+  @apply flex flex-col;
+}
+
+.table {
+  @apply table-auto;
+}
+
+.tr {
+  @apply border border-gray-300 text-left;
+}
+
+.th {
+  @apply bg-gray-50 py-2 px-5 text-gray-700 cursor-pointer;
+
+  div {
+    @apply flex items-center;
+
+    svg {
+      @apply text-gray-400 ml-2;
+    }
+  }
+}
+
+.row {
+  @apply border border-gray-300 text-left transition-all;
+}
+
+.row:hover {
+  @apply bg-gray-100 shadow-sm cursor-pointer;
+}
+
+.td {
+  @apply py-2 px-5 text-gray-600;
+}
+
+.pagination {
+  @apply flex justify-center items-center pt-4;
+}
+
+.actions {
+  @apply flex items-center ml-4;
+}

@@ -1,6 +1,7 @@
 import React from 'react'
 import { NextPage, NextPageContext } from 'next'
 import { getSessionOrRedirect } from 'lib/auth'
+import { Header } from 'components/header'
 import { PageTitle } from 'components/PageTitle'
 import { AdminLayout } from 'layouts'
 
@@ -9,12 +10,12 @@ interface Props {
 }
 
 const AdminIndexPage: NextPage<Props> = ({ session }) => {
+  const isLoggedIn = session != null
   return (
     <>
       <PageTitle title="Home" />
-      <AdminLayout>
-        <h3 className="text-4xl font-extrabold">Hello World!</h3>
-        <p className="mb-4">Reality is what you can get away with.</p>
+      <AdminLayout isLoggedIn={isLoggedIn}>
+        <Header title="Overview" />
       </AdminLayout>
     </>
   )

@@ -10,7 +10,6 @@ export default class MyDocument extends Document {
           <meta name="keyword" content="ecommerce" />
         </Head>
         <body className="font-sans">
-          <script src="dark-mode.js" />
           <Main />
           <NextScript />
         </body>

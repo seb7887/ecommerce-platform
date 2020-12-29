@@ -1,0 +1,15 @@
+.root {
+  @apply flex flex-col text-gray-900 transition-all duration-300;
+}
+
+.textarea {
+  @apply flex items-center border-2 border-gray-300 cursor-text px-2 text-gray-900 rounded-sm;
+}
+
+.textarea:focus-within {
+  @apply border-2 border-indigo-900;
+}
+
+.textarea:focus {
+  @apply outline-none;
+}

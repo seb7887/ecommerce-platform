@@ -1,0 +1,27 @@
+.root {
+  @apply relative inline-block text-left;
+}
+
+.menu {
+  @apply shadow-lg px-4 py-2 bg-white border rounded-md absolute origin-top-right right-0 mt-2 ring-black ring-opacity-5;
+}
+
+.item {
+  @apply flex items-center cursor-pointer transition-all my-2;
+
+  span {
+    @apply ml-1;
+  }
+}
+
+.item:hover {
+  @apply opacity-75;
+}
+
+.disabled {
+  @apply cursor-default opacity-50;
+}
+
+.disabled:hover {
+  @apply opacity-50;
+}

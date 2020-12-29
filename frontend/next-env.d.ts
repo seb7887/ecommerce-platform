@@ -45,3 +45,16 @@ interface Credentials {
   email: string
   password: string
 }
+
+interface Product {
+  id?: string | number
+  name: string
+  author: string
+  description: string
+  price: number
+  cost: number
+  stock: number
+  sold?: number
+  active?: boolean
+  image?: string
+}

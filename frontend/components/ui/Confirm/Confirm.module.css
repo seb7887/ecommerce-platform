@@ -1,0 +1,19 @@
+.root {
+  @apply flex flex-col;
+}
+
+.title {
+  @apply text-lg font-bold text-center;
+}
+
+.message {
+  @apply text-sm mt-2 mb-4;
+}
+
+.actions {
+  @apply flex justify-end items-center;
+}
+
+.actions > * {
+  @apply ml-2;
+}
