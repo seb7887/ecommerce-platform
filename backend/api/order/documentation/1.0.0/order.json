@@ -518,7 +518,9 @@
         "required": [
           "id",
           "date",
-          "shippingMethod"
+          "shippingMethod",
+          "paid",
+          "detail"
         ],
         "properties": {
           "id": {
@@ -599,6 +601,13 @@
             "type": "boolean",
             "default": false
           },
+          "paid": {
+            "type": "boolean",
+            "default": false
+          },
+          "detail": {
+            "type": "object"
+          },
           "published_at": {
             "type": "string",
             "format": "date-time"
@@ -608,7 +617,9 @@
       "NewOrder": {
         "required": [
           "date",
-          "shippingMethod"
+          "shippingMethod",
+          "paid",
+          "detail"
         ],
         "properties": {
           "products": {
@@ -636,6 +647,13 @@
           "delivered": {
             "type": "boolean",
             "default": false
+          },
+          "paid": {
+            "type": "boolean",
+            "default": false
+          },
+          "detail": {
+            "type": "object"
           },
           "published_at": {
             "type": "string",

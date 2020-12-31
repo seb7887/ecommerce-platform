@@ -33,6 +33,14 @@
       }
     },
     {
+      "method": "POST",
+      "path": "/sales/bulk",
+      "handler": "sale.bulk",
+      "config": {
+        "policies": []
+      }
+    },
+    {
       "method": "PUT",
       "path": "/sales/:id",
       "handler": "sale.update",

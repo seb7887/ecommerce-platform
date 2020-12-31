@@ -41,6 +41,20 @@ module.exports = async () => {
   setPermission(authRole, "application", "product", "update", true);
   setPermission(authRole, "application", "product", "delete", true);
   setPermission(authRole, "application", "product", "bulk", true);
+  setPermission(authRole, "application", "order", "count", true);
+  setPermission(authRole, "application", "order", "find", true);
+  setPermission(authRole, "application", "order", "findone", true);
+  setPermission(authRole, "application", "order", "create", true);
+  setPermission(authRole, "application", "order", "update", true);
+  setPermission(authRole, "application", "order", "delete", true);
+  setPermission(authRole, "application", "order", "bulk", true);
+  setPermission(authRole, "application", "sell", "count", true);
+  setPermission(authRole, "application", "sell", "find", true);
+  setPermission(authRole, "application", "sell", "findone", true);
+  setPermission(authRole, "application", "sell", "create", true);
+  setPermission(authRole, "application", "sell", "update", true);
+  setPermission(authRole, "application", "sell", "delete", true);
+  setPermission(authRole, "application", "sell", "bulk", true);
   await service.updateRole(authRole.id, authRole);
 
   const publicRole = await getRole("public");

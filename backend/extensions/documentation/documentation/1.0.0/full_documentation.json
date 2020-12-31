@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "12/29/2020 4:35:13 PM"
+    "x-generation-date": "12/31/2020 1:49:40 PM"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -2158,6 +2158,77 @@
             }
           }
         ]
+      }
+    },
+    "/sales/bulk": {
+      "post": {
+        "deprecated": false,
+        "description": "Create a new record",
+        "responses": {
+          "200": {
+            "description": "response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "foo": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Sale"
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "foo": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/settings": {
@@ -4776,7 +4847,9 @@
         "required": [
           "id",
           "date",
-          "shippingMethod"
+          "shippingMethod",
+          "paid",
+          "detail"
         ],
         "properties": {
           "id": {
@@ -4857,6 +4930,13 @@
             "type": "boolean",
             "default": false
           },
+          "paid": {
+            "type": "boolean",
+            "default": false
+          },
+          "detail": {
+            "type": "object"
+          },
           "published_at": {
             "type": "string",
             "format": "date-time"
@@ -4866,7 +4946,9 @@
       "NewOrder": {
         "required": [
           "date",
-          "shippingMethod"
+          "shippingMethod",
+          "paid",
+          "detail"
         ],
         "properties": {
           "products": {
@@ -4894,6 +4976,13 @@
           "delivered": {
             "type": "boolean",
             "default": false
+          },
+          "paid": {
+            "type": "boolean",
+            "default": false
+          },
+          "detail": {
+            "type": "object"
           },
           "published_at": {
             "type": "string",
@@ -5096,7 +5185,9 @@
             "required": [
               "id",
               "date",
-              "shippingMethod"
+              "shippingMethod",
+              "paid",
+              "detail"
             ],
             "properties": {
               "id": {
@@ -5119,6 +5210,12 @@
               },
               "delivered": {
                 "type": "boolean"
+              },
+              "paid": {
+                "type": "boolean"
+              },
+              "detail": {
+                "type": "object"
               },
               "published_at": {
                 "type": "string"
