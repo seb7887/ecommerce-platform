@@ -1,31 +1,72 @@
 cube(`Orders`, {
-  sql: `
-  select 1 as id, 100 as amount, 'new' status
-  UNION ALL
-  select 2 as id, 200 as amount, 'new' status
-  UNION ALL
-  select 3 as id, 300 as amount, 'processed' status
-  UNION ALL
-  select 4 as id, 500 as amount, 'processed' status
-  UNION ALL
-  select 5 as id, 600 as amount, 'shipped' status
-  `,
-
+  sql: `SELECT * FROM public.orders`,
+  
+  joins: {
+    
+  },
+  
   measures: {
     count: {
-      type: `count`
-    },
-
-    totalAmount: {
-      sql: `amount`,
-      type: `sum`
+      type: `count`,
+      drillMembers: [id, customername, paid, createdAt, updatedAt, date]
     }
   },
-
+  
   dimensions: {
-    status: {
-      sql: `status`,
+    customeremail: {
+      sql: `${CUBE}."customerEmail"`,
       type: `string`
+    },
+    
+    id: {
+      sql: `id`,
+      type: `number`,
+      primaryKey: true
+    },
+    
+    customername: {
+      sql: `${CUBE}."customerName"`,
+      type: `string`
+    },
+    
+    paid: {
+      sql: `paid`,
+      type: `string`
+    },
+    
+    shippingmethod: {
+      sql: `${CUBE}."shippingMethod"`,
+      type: `string`
+    },
+    
+    detail: {
+      sql: `detail`,
+      type: `string`
+    },
+    
+    delivered: {
+      sql: `delivered`,
+      type: `string`
+    },
+    
+    createdAt: {
+      sql: `created_at`,
+      type: `time`
+    },
+    
+    updatedAt: {
+      sql: `updated_at`,
+      type: `time`
+    },
+    
+    date: {
+      sql: `date`,
+      type: `time`
+    },
+    
+    publishedAt: {
+      sql: `published_at`,
+      type: `time`
     }
   }
 });
