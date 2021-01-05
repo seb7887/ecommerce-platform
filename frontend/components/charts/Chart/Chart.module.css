@@ -1,0 +1,43 @@
+.root {
+  @apply flex flex-col border rounded-md px-4 pt-4 shadow-sm;
+}
+
+.default {
+  width: 75%;
+}
+
+.small {
+  width: 40%;
+}
+
+.empty {
+  @apply mb-4;
+}
+
+.loading {
+  @apply flex justify-center;
+  height: 300px;
+}
+
+.header {
+  @apply flex flex-col items-center justify-center mb-4;
+}
+
+.title {
+  @apply text-gray-500 font-bold text-xl;
+}
+
+.icon {
+  @apply text-gray-300 text-4xl;
+}
+
+.legends {
+  @apply flex justify-center my-2;
+}
+
+.legend {
+  @apply flex items-center mx-2 text-gray-700 select-none;
+  svg {
+    @apply mr-1;
+  }
+}
