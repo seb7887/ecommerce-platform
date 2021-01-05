@@ -1,72 +1,75 @@
 cube(`Products`, {
   sql: `SELECT * FROM public.products`,
-  
-  joins: {
-    
-  },
-  
+
+  joins: {},
+
   measures: {
     count: {
       type: `count`,
-      drillMembers: [id, name, createdAt, updatedAt]
+      drillMembers: [id, name, createdAt, updatedAt],
     },
-    
+
     cost: {
       sql: `cost`,
-      type: `sum`
+      type: `sum`,
     },
-    
+
     price: {
       sql: `price`,
-      type: `sum`
-    }
+      type: `sum`,
+    },
+
+    sold: {
+      sql: `sold`,
+      type: `sum`,
+    },
   },
-  
+
   dimensions: {
     author: {
       sql: `author`,
-      type: `string`
+      type: `string`,
     },
-    
+
     image: {
       sql: `image`,
-      type: `string`
+      type: `string`,
     },
-    
+
     active: {
       sql: `active`,
-      type: `string`
+      type: `string`,
     },
-    
+
     description: {
       sql: `description`,
-      type: `string`
+      type: `string`,
     },
-    
+
     id: {
       sql: `id`,
       type: `number`,
-      primaryKey: true
+      primaryKey: true,
     },
-    
+
     name: {
       sql: `name`,
-      type: `string`
+      type: `string`,
     },
-    
+
     createdAt: {
       sql: `created_at`,
-      type: `time`
+      type: `time`,
     },
-    
+
     updatedAt: {
       sql: `updated_at`,
-      type: `time`
+      type: `time`,
     },
-    
+
     publishedAt: {
       sql: `published_at`,
-      type: `time`
-    }
-  }
+      type: `time`,
+    },
+  },
 });

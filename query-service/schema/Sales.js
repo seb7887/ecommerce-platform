@@ -1,47 +1,50 @@
 cube(`Sales`, {
   sql: `SELECT * FROM public.sales`,
-  
-  joins: {
-    
-  },
-  
+
+  joins: {},
+
   measures: {
     count: {
       type: `count`,
-      drillMembers: [id, createdAt, updatedAt, date]
-    }
+      drillMembers: [id, createdAt, updatedAt, date],
+    },
   },
-  
+
   dimensions: {
     id: {
       sql: `id`,
       type: `number`,
-      primaryKey: true
+      primaryKey: true,
     },
-    
+
+    charged: {
+      sql: `charged`,
+      type: `number`,
+    },
+
     paymentmethod: {
       sql: `${CUBE}."paymentMethod"`,
-      type: `string`
+      type: `string`,
     },
-    
+
     createdAt: {
       sql: `created_at`,
-      type: `time`
+      type: `time`,
     },
-    
+
     updatedAt: {
       sql: `updated_at`,
-      type: `time`
+      type: `time`,
     },
-    
+
     date: {
       sql: `date`,
-      type: `time`
+      type: `time`,
     },
-    
+
     publishedAt: {
       sql: `published_at`,
-      type: `time`
-    }
-  }
+      type: `time`,
+    },
+  },
 });
